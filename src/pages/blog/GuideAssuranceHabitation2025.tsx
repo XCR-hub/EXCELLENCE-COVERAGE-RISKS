@@ -788,7 +788,7 @@ export default function GuideAssuranceHabitation2025() {
               <div className="flex flex-col sm:flex-row gap-4">
                 <Button
                   variant="accent"
-                  href="/assurance-habitation"
+                  href="/particuliers/protection-biens/assurance-habitation"
                   className="flex-1"
                 >
                   <Home className="h-5 w-5 mr-2" />
