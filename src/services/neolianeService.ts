@@ -148,8 +148,8 @@ export interface SubscriptionFlowState {
 }
 
 class NeolianeService {
-  private userKey =
-    '9162f8b63e4fc4778d0d5c66a6fd563bb87185ed2a02abd172fa586c8668f4b2';
+  // User API key is provided via environment variable for security
+  private userKey = import.meta.env.VITE_NEOLIANE_USER_KEY || '';
   private proxyUrl = 'https://evolivie.com/proxy-neoliane.php';
   private accessToken: string | null = null;
   private tokenExpiry = 0;
