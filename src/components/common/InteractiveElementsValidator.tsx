@@ -23,8 +23,15 @@ const InteractiveElementsValidator = () => {
         if (href && href.startsWith('/') && !href.includes('#')) {
           // These should be valid routes
           const validRoutes = [
-            '/', '/contact', '/assurance-auto', '/assurance-decennale',
-            '/assurance-emprunteur', '/protection-juridique', '/blog'
+            '/',
+            '/contact',
+            '/assurance-auto',
+            '/assurance-decennale',
+            '/assurance-emprunteur',
+            '/protection-juridique',
+            '/blog',
+            '/particuliers/protection-biens/assurance-habitation',
+            '/particuliers/epargne-placement/assurance-vie'
           ];
           
           if (!validRoutes.some(route => href.startsWith(route))) {

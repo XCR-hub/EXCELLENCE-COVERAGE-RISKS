@@ -335,7 +335,7 @@ const navigationPages: SitePageInfo[] = [
   {
     id: 'assurance-sante-particuliers',
     title: 'Assurance Santé',
-    path: '/particuliers/sante',
+    path: '/particuliers/protection-personnes/assurance-sante',
     description: 'Couverture complète pour vos frais de santé',
     icon: <Heart className="h-5 w-5" />,
     section: 'particuliers',
@@ -345,7 +345,7 @@ const navigationPages: SitePageInfo[] = [
   {
     id: 'assurance-prevoyance-particuliers',
     title: 'Assurance Prévoyance',
-    path: '/particuliers/prevoyance',
+    path: '/particuliers/protection-personnes/assurance-prevoyance',
     description: "Protection financière en cas d'accident ou maladie",
     icon: <Shield className="h-5 w-5" />,
     section: 'particuliers',
@@ -377,7 +377,7 @@ const navigationPages: SitePageInfo[] = [
   {
     id: 'assurance-habitation-particuliers',
     title: 'Assurance Habitation',
-    path: '/particuliers/habitation',
+    path: '/particuliers/protection-biens/assurance-habitation',
     description: 'Protection de votre logement et de vos biens',
     icon: <Home className="h-5 w-5" />,
     section: 'particuliers',
@@ -389,7 +389,7 @@ const navigationPages: SitePageInfo[] = [
   {
     id: 'assurance-vie-particuliers',
     title: 'Assurance Vie',
-    path: '/particuliers/assurance-vie',
+    path: '/particuliers/epargne-placement/assurance-vie',
     description: "Solution d'épargne flexible et avantageuse",
     icon: <Wallet className="h-5 w-5" />,
     section: 'particuliers',
@@ -399,7 +399,7 @@ const navigationPages: SitePageInfo[] = [
   {
     id: 'epargne-retraite-particuliers',
     title: 'Épargne Retraite',
-    path: '/particuliers/epargne-retraite',
+    path: '/particuliers/epargne-placement/plan-epargne-retraite',
     description: 'Préparez sereinement votre retraite',
     icon: <Wallet className="h-5 w-5" />,
     section: 'particuliers',
@@ -424,7 +424,7 @@ const navigationPages: SitePageInfo[] = [
   {
     id: 'prevoyance-tns',
     title: 'Prévoyance TNS',
-    path: '/professionnels/prevoyance-tns',
+    path: '/professionnels/protection-personnes/prevoyance-pro',
     description: "Protection en cas d'arrêt de travail ou invalidité",
     icon: <Shield className="h-5 w-5" />,
     section: 'professionnels',
@@ -434,7 +434,7 @@ const navigationPages: SitePageInfo[] = [
   {
     id: 'sante-tns',
     title: 'Santé TNS',
-    path: '/professionnels/sante-tns',
+    path: '/professionnels/protection-personnes/mutuelle-sante-pro',
     description: 'Couverture santé adaptée aux professionnels',
     icon: <Heart className="h-5 w-5" />,
     section: 'professionnels',
@@ -478,7 +478,7 @@ const navigationPages: SitePageInfo[] = [
   {
     id: 'retraite-madelin',
     title: 'Retraite Madelin',
-    path: '/professionnels/retraite-madelin',
+    path: '/professionnels/epargne-placement/retraite-madelin',
     description: 'Solution de retraite dédiée aux indépendants',
     icon: <Wallet className="h-5 w-5" />,
     section: 'professionnels',
