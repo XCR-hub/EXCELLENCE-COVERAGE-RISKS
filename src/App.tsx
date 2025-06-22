@@ -11,6 +11,7 @@ import Home from './pages/Home';
 import ContactPage from './pages/ContactPage';
 import AssuranceAutoPage from './pages/AssuranceAutoPage';
 import AssuranceEmprunteurPage from './pages/AssuranceEmprunteurPage';
+import AssuranceSantePage from './pages/AssuranceSantePage';
 import ProtectionJuridiquePage from './pages/ProtectionJuridiquePage';
 import SolutionsFinancieresPage from './pages/SolutionsFinancieresPage';
 import RCProPage from './pages/RCProPage';
@@ -63,6 +64,7 @@ function App() {
 
             {/* Particuliers */}
             <Route path="/assurance-auto" element={<AssuranceAutoPage />} />
+            <Route path="/particuliers/sante" element={<AssuranceSantePage />} />
             <Route
               path="/assurance-emprunteur"
               element={<AssuranceEmprunteurPage />}
@@ -126,11 +128,19 @@ function App() {
                     </a>
                   </li>
                   <li>
-                    <a
+                  <a
                       href="/assurance-emprunteur"
                       className="text-gray-300 hover:text-white focus:text-white focus:ring-2 focus:ring-gray-300 focus:ring-offset-2 focus:ring-offset-gray-800 rounded px-1"
                     >
                       Assurance Emprunteur
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="/particuliers/sante"
+                      className="text-gray-300 hover:text-white focus:text-white focus:ring-2 focus:ring-gray-300 focus:ring-offset-2 focus:ring-offset-gray-800 rounded px-1"
+                    >
+                      Assurance Santé
                     </a>
                   </li>
                   <li>

@@ -229,10 +229,17 @@ const ParticuliersHomePage = () => {
                     </ul>
 
                     <Link
-                      to="/assurance-emprunteur"
+                      to="/particuliers/sante"
                       className="flex items-center text-primary-600 hover:text-primary-800 font-medium"
                     >
-                      Découvrir nos solutions
+                      Mutuelle Santé
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </Link>
+                    <Link
+                      to="/assurance-emprunteur"
+                      className="flex items-center text-primary-600 hover:text-primary-800 font-medium mt-2"
+                    >
+                      Assurance Emprunteur
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </Link>
                   </div>
