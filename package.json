@@ -10,11 +10,14 @@
     "lint": "eslint . --ext .ts,.tsx --report-unused-disable-directives --max-warnings 0",
     "lighthouse": "lighthouse http://localhost:5173 --output=json --output-path=./lighthouse-report.json --chrome-flags='--headless'",
     "test:e2e": "playwright test",
-    "analyze": "npx vite-bundle-analyzer"
+    "analyze": "npx vite-bundle-analyzer",
+    "proxy": "node proxy.js"
   },
   "dependencies": {
     "@formspree/react": "^2.4.1",
+    "express": "^5.1.0",
     "framer-motion": "^10.16.4",
+    "http-proxy-middleware": "^3.0.5",
     "i18next": "^23.4.4",
     "i18next-browser-languagedetector": "^7.1.0",
     "lucide-react": "^0.263.1",
@@ -25,7 +28,7 @@
     "react-router-dom": "^6.14.2"
   },
   "devDependencies": {
-    
+    "@eslint/js": "^8.45.0",
     "@playwright/test": "^1.53.0",
     "@supabase/supabase-js": "^2.39.3",
     "@types/react": "^18.2.15",
@@ -35,8 +38,6 @@
     "@vitejs/plugin-react": "^4.0.3",
     "autoprefixer": "^10.4.14",
     "eslint": "^8.45.0",
-    "@eslint/js": "^8.45.0",
-    "typescript-eslint": "^7.0.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.3",
     "nodemailer": "^6.9.9",
@@ -44,6 +45,7 @@
     "tailwindcss": "^3.3.3",
     "terser": "^5.19.2",
     "typescript": "^5.0.2",
+    "typescript-eslint": "^7.0.0",
     "vite": "^4.4.5",
     "vite-bundle-analyzer": "^0.7.0"
   }
