@@ -377,7 +377,7 @@ const navigationPages: SitePageInfo[] = [
   {
     id: 'assurance-habitation-particuliers',
     title: 'Assurance Habitation',
-    path: '/particuliers/habitation',
+    path: '/particuliers/protection-biens/assurance-habitation',
     description: 'Protection de votre logement et de vos biens',
     icon: <Home className="h-5 w-5" />,
     section: 'particuliers',
@@ -389,7 +389,7 @@ const navigationPages: SitePageInfo[] = [
   {
     id: 'assurance-vie-particuliers',
     title: 'Assurance Vie',
-    path: '/particuliers/assurance-vie',
+    path: '/particuliers/epargne-placement/assurance-vie',
     description: "Solution d'épargne flexible et avantageuse",
     icon: <Wallet className="h-5 w-5" />,
     section: 'particuliers',

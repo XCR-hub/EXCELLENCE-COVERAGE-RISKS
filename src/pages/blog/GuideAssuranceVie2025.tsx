@@ -917,7 +917,7 @@ export default function GuideAssuranceVie2025() {
               <div className="flex flex-col sm:flex-row gap-4">
                 <Button
                   variant="accent"
-                  href="/assurance-vie"
+                  href="/particuliers/epargne-placement/assurance-vie"
                   className="flex-1"
                 >
                   <Heart className="h-5 w-5 mr-2" />
