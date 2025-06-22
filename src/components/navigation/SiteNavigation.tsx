@@ -93,7 +93,7 @@ const SiteNavigation = () => {
     },
     {
       label: 'Assurance Habitation',
-      path: '/particuliers/habitation',
+      path: '/particuliers/protection-biens/assurance-habitation',
       icon: <Home className="h-5 w-5" />,
       section: 'particuliers',
       category: 'biens',
@@ -102,7 +102,7 @@ const SiteNavigation = () => {
     // Épargne et placement
     {
       label: 'Assurance Vie',
-      path: '/particuliers/assurance-vie',
+      path: '/particuliers/epargne-placement/assurance-vie',
       icon: <Wallet className="h-5 w-5" />,
       section: 'particuliers',
       category: 'epargne',
