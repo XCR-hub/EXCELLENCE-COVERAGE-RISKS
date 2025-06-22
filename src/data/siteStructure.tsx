@@ -51,7 +51,7 @@ export const siteStructure: SiteSection[] = [
           {
             id: 'assurance-sante',
             title: 'Assurance Santé',
-            path: '/particuliers/protection-personnes/assurance-sante',
+            path: '/particuliers/sante',
             description: 'Couverture complète pour vos frais de santé',
           },
           {
@@ -335,12 +335,12 @@ const navigationPages: SitePageInfo[] = [
   {
     id: 'assurance-sante-particuliers',
     title: 'Assurance Santé',
-    path: '/particuliers/protection-personnes/assurance-sante',
+    path: '/particuliers/sante',
     description: 'Couverture complète pour vos frais de santé',
     icon: <Heart className="h-5 w-5" />,
     section: 'particuliers',
     category: 'personnes',
-    status: 'coming-soon',
+    status: 'active',
   },
   {
     id: 'assurance-prevoyance-particuliers',

@@ -126,6 +126,13 @@ const MobileNavigation = () => {
       priority: 4,
       children: [],
     },
+    {
+      label: 'Santé',
+      path: '/particuliers/sante',
+      icon: <FileText className="h-5 w-5" />,
+      priority: 5,
+      children: [],
+    },
   ];
 
   // Sort by priority
