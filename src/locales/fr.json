@@ -1,0 +1,62 @@
+{
+  "common": {
+    "learnMore": "En savoir plus",
+    "contact": "Contactez-nous",
+    "getQuote": "Obtenir un devis",
+    "readMore": "Lire la suite"
+  },
+  "nav": {
+    "home": "Accueil",
+    "products": "Nos produits",
+    "rcPro": "RC Professionnelle",
+    "decennale": "Décennale",
+    "juridique": "Protection Juridique",
+    "emprunteur": "Assurance Emprunteur",
+    "sante": "Mutuelle Santé",
+    "partners": "Espace Partenaires",
+    "blog": "Blog",
+    "contact": "Contact"
+  },
+  "home": {
+    "hero": {
+      "title": "Votre courtier en assurance de confiance",
+      "subtitle": "Des solutions d'assurance sur mesure pour protéger votre entreprise et votre famille",
+      "cta": "Demander un devis gratuit"
+    },
+    "services": {
+      "title": "Nos solutions d'assurance",
+      "subtitle": "Protection complète pour tous vos besoins"
+    },
+    "testimonials": {
+      "title": "Ce que nos clients disent",
+      "subtitle": "Des milliers d'entreprises et de particuliers nous font confiance"
+    },
+    "stats": {
+      "title": "XCR en chiffres",
+      "subtitle": "Un réseau national au service de votre protection",
+      "brokers": "Courtiers",
+      "clients": "Clients satisfaits",
+      "years": "Années d'expertise",
+      "partners": "Compagnies partenaires"
+    },
+    "cta": {
+      "title": "Prêt à sécuriser votre avenir ?",
+      "subtitle": "Nos experts sont à votre disposition pour vous guider",
+      "button": "Obtenir mon devis personnalisé"
+    }
+  },
+  "footer": {
+    "company": "Société",
+    "about": "À propos",
+    "careers": "Carrières",
+    "press": "Presse",
+    "products": "Produits",
+    "legal": "Mentions légales",
+    "privacy": "Politique de confidentialité",
+    "terms": "Conditions générales",
+    "cookies": "Gestion des cookies",
+    "contact": "Contact",
+    "rights": "© 2023 XCR. Tous droits réservés.",
+    "follow": "Suivez-nous"
+  }
+}

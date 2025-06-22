@@ -1,0 +1,62 @@
+{
+  "common": {
+    "learnMore": "Learn more",
+    "contact": "Contact us",
+    "getQuote": "Get a quote",
+    "readMore": "Read more"
+  },
+  "nav": {
+    "home": "Home",
+    "products": "Our products",
+    "rcPro": "Professional Liability",
+    "decennale": "Decennial Insurance",
+    "juridique": "Legal Protection",
+    "emprunteur": "Loan Insurance",
+    "sante": "Health Insurance",
+    "partners": "Partners Area",
+    "blog": "Blog",
+    "contact": "Contact"
+  },
+  "home": {
+    "hero": {
+      "title": "Your trusted insurance broker",
+      "subtitle": "Tailored insurance solutions to protect your business and family",
+      "cta": "Request a free quote"
+    },
+    "services": {
+      "title": "Our insurance solutions",
+      "subtitle": "Comprehensive protection for all your needs"
+    },
+    "testimonials": {
+      "title": "What our clients say",
+      "subtitle": "Thousands of businesses and individuals trust us"
+    },
+    "stats": {
+      "title": "XCR in numbers",
+      "subtitle": "A national network serving your protection",
+      "brokers": "Brokers",
+      "clients": "Satisfied clients",
+      "years": "Years of expertise",
+      "partners": "Partner companies"
+    },
+    "cta": {
+      "title": "Ready to secure your future?",
+      "subtitle": "Our experts are available to guide you",
+      "button": "Get my personalized quote"
+    }
+  },
+  "footer": {
+    "company": "Company",
+    "about": "About",
+    "careers": "Careers",
+    "press": "Press",
+    "products": "Products",
+    "legal": "Legal Notice",
+    "privacy": "Privacy Policy",
+    "terms": "Terms & Conditions",
+    "cookies": "Cookie Settings",
+    "contact": "Contact",
+    "rights": "© 2023 XCR. All rights reserved.",
+    "follow": "Follow us"
+  }
+}

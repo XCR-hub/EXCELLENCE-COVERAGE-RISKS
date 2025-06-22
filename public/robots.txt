@@ -1,0 +1,23 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://xcr-courtier.fr/sitemap.xml
+
+# Disallow admin and private areas
+Disallow: /admin/
+Disallow: /private/
+Disallow: /*.pdf$
+
+# Allow important pages
+Allow: /assurance-auto
+Allow: /assurance-decennale
+Allow: /assurance-emprunteur
+Allow: /protection-juridique
+Allow: /contact
+
+# Allow optimized images
+Allow: /logos/
+
+# Crawl delay
+Crawl-delay: 1

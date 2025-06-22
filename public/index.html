@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>XCR Professional Insurance Brokerage Website</title>
+    
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-XXXXXXX');</script>
+    <!-- End Google Tag Manager -->
+    
+    <!-- Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TEST123456"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-TEST123456');
+    </script>
+    
+    <!-- Meta Pixel Code -->
+    <script>
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window, document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', 'YOUR_PIXEL_ID');
+      fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=YOUR_PIXEL_ID&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- End Meta Pixel Code -->
+    
+    <!-- Netlify Forms -->
+    <form name="lead-decennale-macon" netlify="true" hidden>
+      <input type="text" name="raisonSociale" />
+      <input type="text" name="siret" />
+      <input type="date" name="dateCreation" />
+      <input type="text" name="chiffreAffaires" />
+      <input type="text" name="effectif" />
+      <input type="text" name="activitesPrincipales" />
+      <input type="text" name="activitesSecondaires" />
+      <input type="text" name="experienceMetier" />
+      <input type="text" name="assureurActuel" />
+      <input type="text" name="antecedentsAssurance" />
+      <input type="text" name="sinistralite36Mois" />
+      <input type="text" name="civilite" />
+      <input type="text" name="prenom" />
+      <input type="text" name="nom" />
+      <input type="email" name="email" />
+      <input type="tel" name="telephone" />
+      <input type="text" name="metier" />
+      <input type="text" name="timestamp" />
+    </form>
+    
+    <form name="lead-decennale-electricien" netlify="true" hidden>
+      <input type="text" name="raisonSociale" />
+      <input type="text" name="siret" />
+      <input type="date" name="dateCreation" />
+      <input type="text" name="chiffreAffaires" />
+      <input type="text" name="effectif" />
+      <input type="text" name="activitesPrincipales" />
+      <input type="text" name="activitesSecondaires" />
+      <input type="text" name="experienceMetier" />
+      <input type="text" name="assureurActuel" />
+      <input type="text" name="antecedentsAssurance" />
+      <input type="text" name="sinistralite36Mois" />
+      <input type="text" name="civilite" />
+      <input type="text" name="prenom" />
+      <input type="text" name="nom" />
+      <input type="email" name="email" />
+      <input type="tel" name="telephone" />
+      <input type="text" name="metier" />
+      <input type="text" name="timestamp" />
+    </form>
+    
+    <form name="lead-decennale-plombier" netlify="true" hidden>
+      <input type="text" name="raisonSociale" />
+      <input type="text" name="siret" />
+      <input type="date" name="dateCreation" />
+      <input type="text" name="chiffreAffaires" />
+      <input type="text" name="effectif" />
+      <input type="text" name="activitesPrincipales" />
+      <input type="text" name="activitesSecondaires" />
+      <input type="text" name="experienceMetier" />
+      <input type="text" name="assureurActuel" />
+      <input type="text" name="antecedentsAssurance" />
+      <input type="text" name="sinistralite36Mois" />
+      <input type="text" name="civilite" />
+      <input type="text" name="prenom" />
+      <input type="text" name="nom" />
+      <input type="email" name="email" />
+      <input type="tel" name="telephone" />
+      <input type="text" name="metier" />
+      <input type="text" name="timestamp" />
+    </form>
+  </head>
+  <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+    
+    <!-- Suivi de conversion -->
+    <script>
+      // Fonction pour suivre les conversions
+      function trackConversion(event) {
+        if (typeof gtag === 'function') {
+          gtag('event', 'conversion', {
+            'send_to': 'G-TEST123456/lead_decennale/CONVERSION_ID',
+            'value': event.detail.value,
+            'currency': 'EUR',
+            'transaction_id': event.detail.id
+          });
+        }
+        
+        if (typeof fbq === 'function') {
+          fbq('track', 'Lead', {
+            content_name: event.detail.metier,
+            content_category: 'decennale',
+            value: event.detail.value,
+            currency: 'EUR'
+          });
+        }
+      }
+      
+      // Écouter les événements de conversion
+      document.addEventListener('decennaleLeadSubmitted', trackConversion);
+    </script>
+  </body>
+</html>

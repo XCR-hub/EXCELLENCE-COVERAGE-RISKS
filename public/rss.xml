@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Blog XCR Courtier - Conseils Assurance</title>
+    <description>Articles experts sur l'assurance auto, RC Pro, décennale et protection des professionnels</description>
+    <link>https://xcr-courtier.fr/blog</link>
+    <atom:link href="https://xcr-courtier.fr/rss.xml" rel="self" type="application/rss+xml" />
+    <language>fr-FR</language>
+    <lastBuildDate>Wed, 15 Jan 2025 10:00:00 GMT</lastBuildDate>
+    <managingEditor>contact@xcr-courtier.fr (XCR Courtier)</managingEditor>
+    <webMaster>contact@xcr-courtier.fr (XCR Courtier)</webMaster>
+    <category>Assurance</category>
+    <ttl>1440</ttl>
+    
+    <item>
+      <title>Pourquoi demander un devis d'assurance auto en 2025</title>
+      <description>Découvrez pourquoi 2025 est le moment idéal pour demander un devis assurance auto. Nouvelles tendances, technologies et conseils pour économiser sur votre assurance voiture.</description>
+      <link>https://xcr-courtier.fr/blog/devis-assurance-auto-2025</link>
+      <guid>https://xcr-courtier.fr/blog/devis-assurance-auto-2025</guid>
+      <pubDate>Wed, 15 Jan 2025 10:00:00 GMT</pubDate>
+      <author>marie.dubois@xcr-courtier.fr (Marie Dubois)</author>
+      <category>Assurance Auto</category>
+      <enclosure url="https://images.pexels.com/photos/3760067/pexels-photo-3760067.jpeg" type="image/jpeg" length="0"/>
+    </item>
+    
+    <item>
+      <title>RC Pro Artisans &amp; Commerçants : Guide Complet de la Protection Professionnelle</title>
+      <description>Découvrez comment protéger efficacement votre activité d'artisan ou de commerçant avec une assurance RC Pro adaptée.</description>
+      <link>https://xcr-courtier.fr/blog/rc-pro-artisans-commercants-guide</link>
+      <guid>https://xcr-courtier.fr/blog/rc-pro-artisans-commercants-guide</guid>
+      <pubDate>Wed, 20 Mar 2024 10:00:00 GMT</pubDate>
+      <author>marie.dubois@xcr-courtier.fr (Marie Dubois)</author>
+      <category>RC Pro</category>
+      <enclosure url="https://images.pexels.com/photos/3760067/pexels-photo-3760067.jpeg" type="image/jpeg" length="0"/>
+    </item>
+    
+    <item>
+      <title>Les Risques Spécifiques des Artisans : Comment Bien Se Protéger</title>
+      <description>Analyse détaillée des risques professionnels propres aux artisans et solutions d'assurance adaptées.</description>
+      <link>https://xcr-courtier.fr/blog/risques-specifiques-artisans</link>
+      <guid>https://xcr-courtier.fr/blog/risques-specifiques-artisans</guid>
+      <pubDate>Mon, 18 Mar 2024 10:00:00 GMT</pubDate>
+      <author>thomas.martin@xcr-courtier.fr (Thomas Martin)</author>
+      <category>Risques Professionnels</category>
+      <enclosure url="https://images.pexels.com/photos/3637786/pexels-photo-3637786.jpeg" type="image/jpeg" length="0"/>
+    </item>
+  </channel>
+</rss>
