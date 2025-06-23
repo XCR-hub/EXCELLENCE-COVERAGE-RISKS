@@ -12,6 +12,7 @@ import ContactPage from './pages/ContactPage';
 import AssuranceAutoPage from './pages/AssuranceAutoPage';
 import AssuranceEmprunteurPage from './pages/AssuranceEmprunteurPage';
 import AssuranceSantePage from './pages/AssuranceSantePage';
+import AssuranceHabitationPage from './pages/AssuranceHabitationPage';
 import ProtectionJuridiquePage from './pages/ProtectionJuridiquePage';
 import SolutionsFinancieresPage from './pages/SolutionsFinancieresPage';
 import RCProPage from './pages/RCProPage';
@@ -64,6 +65,10 @@ function App() {
 
             {/* Particuliers */}
             <Route path="/assurance-auto" element={<AssuranceAutoPage />} />
+            <Route
+              path="/particuliers/protection-biens/assurance-habitation"
+              element={<AssuranceHabitationPage />}
+            />
             <Route path="/particuliers/sante" element={<AssuranceSantePage />} />
             <Route
               path="/assurance-emprunteur"

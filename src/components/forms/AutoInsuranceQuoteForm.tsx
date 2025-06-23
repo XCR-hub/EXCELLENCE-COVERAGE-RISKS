@@ -286,7 +286,7 @@ const AutoInsuranceQuoteForm = ({ formType, className = '' }: AutoInsuranceQuote
         onSuccess={handleFormSuccess}
         onError={handleFormError}
         emailConfig={{
-          recipient: 'auto@xcr.fr',
+          recipient: 'contact@xcr.fr',
           subject: `[Devis Auto] - ${config.title}`,
           priority: 'high'
         }}

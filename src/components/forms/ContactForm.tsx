@@ -35,10 +35,10 @@ const ContactForm: React.FC<ContactFormProps> = ({ className = '' }) => {
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   const services = [
-    { value: 'commercial', label: 'Commercial', email: 'commercial@xcr.fr' },
-    { value: 'gestion', label: 'Gestion', email: 'gestion@xcr.fr' },
-    { value: 'sinistre', label: 'Sinistres', email: 'sinistre@xcr.fr' },
-    { value: 'patrimoine', label: 'Patrimoine', email: 'patrimoine@xcr.fr' },
+    { value: 'commercial', label: 'Commercial', email: 'contact@xcr.fr' },
+    { value: 'gestion', label: 'Gestion', email: 'contact@xcr.fr' },
+    { value: 'sinistre', label: 'Sinistres', email: 'contact@xcr.fr' },
+    { value: 'patrimoine', label: 'Patrimoine', email: 'contact@xcr.fr' },
   ];
 
   // Validation functions
@@ -123,9 +123,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ className = '' }) => {
     setIsSubmitting(true);
 
     try {
-      // Get the selected service email
-      const selectedService = services.find(s => s.value === formData.service);
-      const targetEmail = selectedService?.email || 'contact@xcr.fr';
+      const targetEmail = 'contact@xcr.fr';
 
       // Prepare form data for Netlify
       const netlifyFormData = new FormData();
