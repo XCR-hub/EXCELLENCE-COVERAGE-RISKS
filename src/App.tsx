@@ -30,6 +30,7 @@ import CourtierAssuranceEntreprisePage from './pages/metiers/CourtierAssuranceEn
 import ParticuliersHomePage from './pages/particuliers/ParticuliersHomePage';
 import ProfessionnelsHomePage from './pages/professionnels/ProfessionnelsHomePage';
 import EntreprisesHomePage from './pages/entreprises/EntreprisesHomePage';
+import MutuelleEditiquePage from './pages/MutuelleEditiquePage';
 
 // 404 Page Component
 import NotFoundPage from './pages/NotFoundPage';
@@ -70,6 +71,10 @@ function App() {
               element={<AssuranceHabitationPage />}
             />
             <Route path="/particuliers/sante" element={<AssuranceSantePage />} />
+            <Route
+              path="/mutuelle-editique"
+              element={<MutuelleEditiquePage />}
+            />
             <Route
               path="/assurance-emprunteur"
               element={<AssuranceEmprunteurPage />}
