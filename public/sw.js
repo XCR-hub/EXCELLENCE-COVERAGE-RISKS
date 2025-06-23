@@ -31,8 +31,12 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
 
-  // Only handle GET requests for http(s) schemes
-  if (event.request.method !== 'GET' || !(url.protocol === 'http:' || url.protocol === 'https:')) {
+  // Only handle same-origin GET requests over http(s)
+  if (
+    event.request.method !== 'GET' ||
+    !(url.protocol === 'http:' || url.protocol === 'https:') ||
+    url.origin !== self.location.origin
+  ) {
     return;
   }
 
