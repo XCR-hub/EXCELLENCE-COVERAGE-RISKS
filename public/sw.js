@@ -57,9 +57,14 @@ self.addEventListener('fetch', (event) => {
           }
 
           const responseToCache = response.clone();
-          caches
-            .open(CACHE_NAME)
-            .then((cache) => cache.put(event.request, responseToCache));
+
+          // Avoid caching requests with unsupported schemes (e.g. chrome-extension)
+          const requestUrl = new URL(event.request.url);
+          if (requestUrl.protocol === 'http:' || requestUrl.protocol === 'https:') {
+            caches
+              .open(CACHE_NAME)
+              .then((cache) => cache.put(event.request, responseToCache));
+          }
 
           return response;
         })
