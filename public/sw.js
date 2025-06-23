@@ -31,7 +31,7 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
 
-  // Only handle same-origin GET requests over http(s)
+  // Ignore non-HTTP requests and anything not from our origin
   if (
     event.request.method !== 'GET' ||
     !(url.protocol === 'http:' || url.protocol === 'https:') ||
