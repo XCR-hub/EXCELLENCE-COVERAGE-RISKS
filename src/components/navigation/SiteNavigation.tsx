@@ -123,6 +123,13 @@ const SiteNavigation = () => {
       section: 'particuliers',
       category: 'services',
     },
+    {
+      label: 'API Editique',
+      path: '/mutuelle-editique',
+      icon: <FileText className="h-5 w-5" />,
+      section: 'particuliers',
+      category: 'services',
+    },
 
     // PROFESSIONNELS
     // Protection des personnes
