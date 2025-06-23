@@ -29,7 +29,10 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-  if (event.request.method !== 'GET') {
+  const url = new URL(event.request.url);
+
+  // Only handle GET requests for http(s) schemes
+  if (event.request.method !== 'GET' || !(url.protocol === 'http:' || url.protocol === 'https:')) {
     return;
   }
 
@@ -57,6 +60,6 @@ self.addEventListener('fetch', (event) => {
           return response;
         })
         .catch(() => caches.match('/index.html'));
-    }),
+    })
   );
 });
