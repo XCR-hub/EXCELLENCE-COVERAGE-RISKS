@@ -6,10 +6,10 @@ import ContactForm from '../components/forms/ContactForm';
 
 const ContactPage = () => {
   const services = [
-    { value: 'commercial', label: 'Commercial', email: 'commercial@xcr.fr' },
-    { value: 'gestion', label: 'Gestion', email: 'gestion@xcr.fr' },
-    { value: 'sinistre', label: 'Sinistres', email: 'sinistre@xcr.fr' },
-    { value: 'patrimoine', label: 'Patrimoine', email: 'patrimoine@xcr.fr' },
+    { value: 'commercial', label: 'Commercial', email: 'contact@xcr.fr' },
+    { value: 'gestion', label: 'Gestion', email: 'contact@xcr.fr' },
+    { value: 'sinistre', label: 'Sinistres', email: 'contact@xcr.fr' },
+    { value: 'patrimoine', label: 'Patrimoine', email: 'contact@xcr.fr' },
   ];
 
   return (

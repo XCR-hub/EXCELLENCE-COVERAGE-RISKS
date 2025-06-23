@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Check, Send, User, Mail, Phone, Building2, FileText, Shield, AlertCircle } from 'lucide-react';
+import { Check, Send, User, Mail, Phone, Building2, FileText, Shield, AlertCircle, Home } from 'lucide-react';
 import FormSubmissionHandler from './FormSubmissionHandler';
 
 interface InsuranceFormProps {
-  type: 'auto' | 'decennale' | 'emprunteur' | 'juridique';
+  type: 'auto' | 'decennale' | 'emprunteur' | 'juridique' | 'habitation';
   className?: string;
 }
 
@@ -57,6 +57,12 @@ const InsuranceForm = ({ type, className = '' }: InsuranceFormProps) => {
       subtitle: 'Défendez vos droits en toutes circonstances',
       coveragePlaceholder: 'Précisez vos besoins (particulier/professionnel, domaines de protection...)',
       icon: <Shield className="w-6 h-6" />,
+    },
+    habitation: {
+      title: 'Devis Assurance Habitation',
+      subtitle: 'Protégez efficacement votre logement',
+      coveragePlaceholder: "Description du logement (surface, localisation, valeur des biens...)",
+      icon: <Home className="w-6 h-6" />,
     },
   };
 
@@ -233,7 +239,7 @@ const InsuranceForm = ({ type, className = '' }: InsuranceFormProps) => {
         onSuccess={handleFormSuccess}
         onError={handleFormError}
         emailConfig={{
-          recipient: `${type}@xcr.fr`,
+          recipient: 'contact@xcr.fr',
           subject: `[Devis ${type.charAt(0).toUpperCase() + type.slice(1)}]`,
           priority: 'high'
         }}

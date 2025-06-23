@@ -314,7 +314,7 @@ const DecennaleLeadForm = ({ metier, className = '' }: DecennaleLeadFormProps) =
         onSuccess={handleFormSuccess}
         onError={handleFormError}
         emailConfig={{
-          recipient: 'decennale@xcr.fr',
+          recipient: 'contact@xcr.fr',
           subject: `[Lead Décennale] - ${metier.charAt(0).toUpperCase() + metier.slice(1)}`,
           priority: 'high'
         }}

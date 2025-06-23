@@ -350,7 +350,7 @@ const navigationPages: SitePageInfo[] = [
     icon: <Shield className="h-5 w-5" />,
     section: 'particuliers',
     category: 'personnes',
-    status: 'coming-soon',
+    status: 'active',
   },
   {
     id: 'assurance-emprunteur',
