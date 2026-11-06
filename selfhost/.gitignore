@@ -1,0 +1,10 @@
+node_modules/
+dist/
+runtime/
+private/
+*.dump
+*.env
+*.log
+*.dpapi
+*.encrypted
+deployment-state.json

@@ -1,0 +1,12 @@
+{
+  "recovered_at": "2026-11-06",
+  "public_origin": "https://xcr.fr",
+  "original_index_sha256": "7b3d818ae0ddf4a0effbce2b03244e09b76bbe2a361298d4d27eb757a23793b7",
+  "historical_repository": "XCR-hub/EXCELLENCE-COVERAGE-RISKS",
+  "historical_commit": "771c147",
+  "database_archive": "XCR-cfuzzizrfiqzxfmnqybu-20260815T223426Z.dump",
+  "native_database": "xcr_site",
+  "postgrest_version": "16.5",
+  "postgrest_archive_sha256": "17f595b0d8dd37473d0231417dea07c5ac9f791282ff5b017fae51ff29e5de2f",
+  "hosting": "SERVEUR-XCR + Cloudflare proxy"
+}

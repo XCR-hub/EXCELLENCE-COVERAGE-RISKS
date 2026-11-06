@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 70" width="200" height="70">
+  <rect x="10" y="18" width="48" height="34" rx="4" fill="#003d6b"/>
+  <text x="34" y="40" text-anchor="middle" fill="white" font-family="'Helvetica Neue', Arial, sans-serif" font-size="18" font-weight="800" letter-spacing="3">GAN</text>
+  <line x1="16" y1="46" x2="52" y2="46" stroke="#e84e0f" stroke-width="2" stroke-linecap="round"/>
+</svg>

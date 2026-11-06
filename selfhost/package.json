@@ -1,0 +1,16 @@
+{
+  "name": "xcr-site-selfhost",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "start": "node server.mjs",
+    "test": "node --test test/*.test.mjs"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "nodemailer": "^7.0.11",
+    "pg": "^8.16.3"
+  }
+}

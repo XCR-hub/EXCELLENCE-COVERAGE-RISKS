@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 70" width="200" height="70">
+  <rect x="8" y="20" width="44" height="30" rx="4" fill="#0053a0"/>
+  <text x="30" y="40" text-anchor="middle" fill="white" font-family="'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="800" letter-spacing="2">CAM</text>
+  <text x="60" y="54" fill="#0053a0" font-family="'Helvetica Neue', Arial, sans-serif" font-size="8" font-weight="500">Assurance</text>
+</svg>

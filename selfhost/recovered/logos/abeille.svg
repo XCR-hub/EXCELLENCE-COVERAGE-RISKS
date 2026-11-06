@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 70" width="200" height="70">
+  <circle cx="22" cy="30" r="12" fill="#ffd100"/>
+  <circle cx="22" cy="30" r="7" fill="#00865a"/>
+  <circle cx="22" cy="30" r="3" fill="#ffd100"/>
+  <text x="42" y="30" fill="#1a3c34" font-family="'Helvetica Neue', Arial, sans-serif" font-size="14" font-weight="700">Abeille</text>
+  <text x="42" y="46" fill="#00865a" font-family="'Helvetica Neue', Arial, sans-serif" font-size="10" font-weight="500">Assurances</text>
+</svg>

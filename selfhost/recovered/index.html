@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="google-site-verification" content="test_verification" />
+
+    <title>XCR Professional Insurance Brokerage Website</title>
+      <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-TEST123456"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-TEST123456');
+  </script>
+
+  <!-- Preload critical fonts -->
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" as="style" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" crossorigin="anonymous">
+
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#1e40af">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="XCR Courtier">
+
+  <!-- Apple Touch Icons -->
+  <link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192x192.png">
+
+  <!-- Microsoft Tiles -->
+  <meta name="msapplication-TileColor" content="#1e40af">
+  <meta name="msapplication-TileImage" content="/icons/icon-192x192.png">
+
+  <!-- Preconnect to external domains -->
+  <link rel="preconnect" href="https://images.pexels.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- DNS Prefetch -->
+  <link rel="dns-prefetch" href="//images.pexels.com">
+  <link rel="dns-prefetch" href="//fonts.googleapis.com">
+
+  <!-- Critical CSS inlined -->
+  <style>
+    /* Critical above-the-fold styles */
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    /* Focus styles for accessibility */
+    *:focus {
+      outline: 2px solid #3b82f6;
+      outline-offset: 2px;
+    }
+
+    /* Skip link for screen readers */
+    .skip-link {
+      position: absolute;
+      top: -40px;
+      left: 6px;
+      background: #000;
+      color: #fff;
+      padding: 8px;
+      text-decoration: none;
+      z-index: 1000;
+    }
+
+    .skip-link:focus {
+      top: 6px;
+    }
+  </style>
+  <script type="module" crossorigin src="/assets/index-102eaf97.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/vendor-abad5982.js">
+  <link rel="modulepreload" crossorigin href="/assets/router-ec6b9b50.js">
+  <link rel="modulepreload" crossorigin href="/assets/ui-6e854878.js">
+  <link rel="stylesheet" href="/assets/index-b5160138.css">
+<script async src="https://bolt.new/badge.js?s=6c95cdc3-2fe5-4439-bcd6-e3d5f9dd9d25"></script></head>
+<body>
+  <!-- Skip link for accessibility -->
+  <a href="#main-content" class="skip-link">Aller au contenu principal</a>
+
+  <div id="root"></div>
+
+
+  <!-- Service Worker Registration -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+          .then((registration) => {
+            console.log('SW registered: ', registration);
+          })
+          .catch((registrationError) => {
+            console.log('SW registration failed: ', registrationError);
+          });
+      });
+    }
+  </script>
+</body>
+</html>

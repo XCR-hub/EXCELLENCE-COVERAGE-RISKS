@@ -1,0 +1,8 @@
+import {createHmac,randomBytes,timingSafeEqual,createHash} from 'node:crypto';
+export const sha256=value=>createHash('sha256').update(value).digest('hex');
+export const randomToken=()=>randomBytes(32).toString('base64url');
+export function signToken(claims,secret,ttl=3600){const now=Math.floor(Date.now()/1000);const parts=[{alg:'HS256',typ:'JWT'},{...claims,iat:now,exp:now+ttl}].map(v=>Buffer.from(JSON.stringify(v)).toString('base64url'));const body=parts.join('.');return body+'.'+createHmac('sha256',secret).update(body).digest('base64url');}
+export function verifyToken(token,secret){try{const parts=token.split('.');if(parts.length!==3)return null;const header=JSON.parse(Buffer.from(parts[0],'base64url'));if(header.alg!=='HS256')return null;const actual=Buffer.from(parts[2],'base64url'),expected=createHmac('sha256',secret).update(parts.slice(0,2).join('.')).digest();if(actual.length!==expected.length||!timingSafeEqual(actual,expected))return null;const claims=JSON.parse(Buffer.from(parts[1],'base64url'));if(!Number.isFinite(claims.exp)||claims.exp<=Date.now()/1000)return null;return claims;}catch{return null;}}
+export function sameSite(origin){if(!origin)return true;try{return ['xcr.fr','www.xcr.fr','xcr-migration.xcr.fr','localhost','127.0.0.1'].includes(new URL(origin).hostname);}catch{return false;}}
+export function safeRedirect(value){try{const u=new URL(value||'https://xcr.fr/');return sameSite(u.origin)&&u.protocol==='https:'?u.href:'https://xcr.fr/';}catch{return 'https://xcr.fr/';}}
+export function safeFilePath(value){try{const decoded=decodeURIComponent(value);return !decoded.includes('\0')&&!decoded.includes('\\')&&!decoded.split('/').includes('..')?decoded:null;}catch{return null;}}

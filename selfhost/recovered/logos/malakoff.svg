@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 70" width="200" height="70">
+  <circle cx="20" cy="28" r="8" fill="#e84e0f"/>
+  <circle cx="32" cy="35" r="8" fill="#e84e0f" opacity="0.6"/>
+  <text x="48" y="30" fill="#2d2d2d" font-family="'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="700">Malakoff</text>
+  <text x="48" y="46" fill="#e84e0f" font-family="'Helvetica Neue', Arial, sans-serif" font-size="10" font-weight="600">Humanis</text>
+</svg>
