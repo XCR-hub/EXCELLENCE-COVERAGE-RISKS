@@ -6,3 +6,4 @@ export function verifyToken(token,secret){try{const parts=token.split('.');if(pa
 export function sameSite(origin){if(!origin)return true;try{return ['xcr.fr','www.xcr.fr','xcr-migration.xcr.fr','localhost','127.0.0.1'].includes(new URL(origin).hostname);}catch{return false;}}
 export function safeRedirect(value){try{const u=new URL(value||'https://xcr.fr/');return sameSite(u.origin)&&u.protocol==='https:'?u.href:'https://xcr.fr/';}catch{return 'https://xcr.fr/';}}
 export function safeFilePath(value){try{const decoded=decodeURIComponent(value);return !decoded.includes('\0')&&!decoded.includes('\\')&&!decoded.split('/').includes('..')?decoded:null;}catch{return null;}}
+export function privilegedProfileMutation(payload){const rows=Array.isArray(payload)?payload:[payload];return rows.some(row=>row&&typeof row==='object'&&['role','is_active','id','email'].some(key=>Object.hasOwn(row,key)));}

@@ -1,8 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {signToken,verifyToken,safeFilePath,sameSite,safeRedirect} from '../security.mjs';
+import {signToken,verifyToken,safeFilePath,sameSite,safeRedirect,privilegedProfileMutation} from '../security.mjs';
 const secret='a'.repeat(64);
 test('an altered access token cannot grant an administrator session',()=>{const token=signToken({sub:'user',role:'authenticated'},secret);const [header,payload,signature]=token.split('.');const edited=Buffer.from(JSON.stringify({...JSON.parse(Buffer.from(payload,'base64url')),role:'admin'})).toString('base64url');assert.equal(verifyToken([header,edited,signature].join('.'),secret),null);assert.equal(verifyToken(token,secret).role,'authenticated');});
 test('expired sessions and foreign signing keys are rejected',()=>{assert.equal(verifyToken(signToken({sub:'user'},secret,-1),secret),null);assert.equal(verifyToken(signToken({sub:'user'},'b'.repeat(64)),secret),null);});
 test('static file traversal and encoded traversal are rejected',()=>{for(const p of ['/../private/config','/%2e%2e/private/config','/assets/%5c../config','/%00'])assert.equal(safeFilePath(p),null);assert.equal(safeFilePath('/assets/logo.png'),'/assets/logo.png');});
 test('recovery links and browser writes stay on approved site origins',()=>{assert.equal(sameSite('https://attacker.example'),false);assert.equal(safeRedirect('https://attacker.example/token'),'https://xcr.fr/');assert.equal(safeRedirect('https://xcr.fr/reset-password'),'https://xcr.fr/reset-password');});
+test('bulk profile writes cannot bypass the restriction on privileged account fields',()=>{assert.equal(privilegedProfileMutation([{first_name:'Client'},{role:'admin'}]),true);assert.equal(privilegedProfileMutation([{is_active:false}]),true);assert.equal(privilegedProfileMutation({email:'other@example.invalid'}),true);assert.equal(privilegedProfileMutation([{first_name:'Client',phone:'0100000000'}]),false);});

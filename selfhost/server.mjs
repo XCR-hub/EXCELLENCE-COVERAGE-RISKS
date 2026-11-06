@@ -6,7 +6,7 @@ import {randomUUID} from 'node:crypto';
 import pg from 'pg';
 import bcrypt from 'bcryptjs';
 import nodemailer from 'nodemailer';
-import {signToken,verifyToken,sha256,randomToken,sameSite,safeRedirect,safeFilePath} from './security.mjs';
+import {signToken,verifyToken,sha256,randomToken,sameSite,safeRedirect,safeFilePath,privilegedProfileMutation} from './security.mjs';
 
 const root=path.dirname(fileURLToPath(import.meta.url));
 const secret=process.env.XCR_JWT_SECRET||'';
@@ -76,7 +76,7 @@ async function rest(req,res,url){
   if(table==='leads'&&req.method==='POST'){rate(req,'lead',12);const data=await body(req);const lead=await createLead(data,req);return json(res,201,req.headers.prefer?.includes('return=representation')?[lead]:null);}
   if(!(['GET','HEAD'].includes(req.method)?publicReads:publicWrites).has(table))throw fail(401,'Connexion requise');if(!['GET','HEAD','POST'].includes(req.method))throw fail(403,'Opération non autorisée');
  }
- let data;if(!['GET','HEAD'].includes(req.method)){data=await body(req);if(table==='profiles'&&['PATCH','POST'].includes(req.method)&&['role','is_active','id','email'].some(k=>Object.hasOwn(data,k))&&user?.profile_role!=='admin')throw fail(403,'Modification réservée à un administrateur');}
+ let data;if(!['GET','HEAD'].includes(req.method)){data=await body(req);if(table==='profiles'&&['PATCH','POST'].includes(req.method)&&privilegedProfileMutation(data)&&user?.profile_role!=='admin')throw fail(403,'Modification réservée à un administrateur');}
  const claims=user?{role:'authenticated',sub:user.id,email:user.email}:{role:'anon'};
  const headers={'Authorization':'Bearer '+signToken(claims,secret,60),'Content-Type':'application/json'};
  for(const key of ['accept','prefer','range','range-unit','if-match'])if(req.headers[key])headers[key]=req.headers[key];
