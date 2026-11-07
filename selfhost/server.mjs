@@ -6,6 +6,13 @@ import {randomUUID} from 'node:crypto';
 import pg from 'pg';
 import bcrypt from 'bcryptjs';
 import nodemailer from 'nodemailer';
+import {createInvitations} from './invitations.mjs';
+import {createDocuments} from './documents.mjs';
+import {createMailImport} from './mail.mjs';
+import {createIntelligence} from './intelligence.mjs';
+import {createAutomation} from './automation.mjs';
+import {createNews} from './news.mjs';
+import {createJobs} from './jobs.mjs';
 import {signToken,verifyToken,sha256,randomToken,sameSite,safeRedirect,safeFilePath,privilegedProfileMutation} from './security.mjs';
 
 const root=path.dirname(fileURLToPath(import.meta.url));
@@ -26,6 +33,13 @@ async function currentUser(req,required=false){let token=(req.headers.authorizat
 const sessionHeaders=session=>({'Set-Cookie':`XCR_SESSION=${session.access_token}; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=3600`});
 async function issueSession(user,existing){const refresh=randomToken(),id=existing||randomUUID();if(existing)await pool.query('update xcr_private.sessions set refresh_hash=$1,expires_at=now()+interval \'7 days\' where id=$2',[sha256(refresh),id]);else await pool.query('insert into xcr_private.sessions(id,user_id,refresh_hash,expires_at) values($1,$2,$3,now()+interval \'7 days\')',[id,user.id,sha256(refresh)]);return {access_token:signToken({iss:'xcr-native',sub:user.id,sid:id,role:'authenticated',aud:'authenticated',email:user.email},secret),token_type:'bearer',expires_in:3600,expires_at:Math.floor(Date.now()/1000)+3600,refresh_token:refresh,user:userShape(user)};}
 async function queueMail(to,subject,text,html){await pool.query('insert into xcr_private.outbox(recipient,subject,body_text,body_html) values($1,$2,$3,$4)',[to,subject,text,html||null]);}
+const invitations=createInvitations({pool,secret,body,json,rate,issueSession,userById,sessionHeaders});
+const documents=createDocuments({pool,secret,currentUser,json,body,rate,restOrigin});
+const mailImport=createMailImport({pool,documents});
+const intelligence=createIntelligence({pool});
+const automation=createAutomation({pool,intelligence});
+const news=createNews({pool});
+const jobs=createJobs({pool,userById,intelligence});
 const escapeHtml=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 async function createLead(data,req){
  const source=data.formData||data;const email=String(data.email||source.email||'').trim().toLowerCase();
@@ -57,19 +71,20 @@ async function auth(req,res,url){const route=url.pathname.replace('/api/platform
   if(user){const token=randomToken();await pool.query('insert into xcr_private.auth_requests(token_hash,user_id,kind,redirect_to,expires_at) values($1,$2,\'recovery\',$3,now()+interval \'30 minutes\')',[sha256(token),user.id,safeRedirect(data.redirect_to||url.searchParams.get('redirect_to'))]);await queueMail(user.email,'Réinitialisation de votre accès XCR',`Pour choisir un nouveau mot de passe : https://xcr.fr/api/platform/auth/v1/verify?token=${token}&type=recovery`);}
   return json(res,200,{});
  }
- if(route==='/signup')throw fail(403,'L’inscription nécessite une invitation du cabinet');
+ if(route==='/signup'&&req.method==='POST')return await invitations.signup(req,res);
  if(route==='/verify'&&req.method==='GET'){
   const token=url.searchParams.get('token')||'';const request=(await pool.query('update xcr_private.auth_requests set used_at=now() where token_hash=$1 and used_at is null and expires_at>now() returning *',[sha256(token)])).rows[0];if(!request)throw fail(400,'Lien expiré');const user=await userById(request.user_id);const session=await issueSession(user);const target=new URL(safeRedirect(request.redirect_to));target.hash=new URLSearchParams({access_token:session.access_token,refresh_token:session.refresh_token,token_type:'bearer',expires_in:'3600',type:'recovery'}).toString();res.writeHead(303,{Location:target.href,'Cache-Control':'no-store'});return res.end();
  }
- if(route==='/settings')return json(res,200,{external:{email:true},disable_signup:true,mailer_autoconfirm:false});
+ if(route==='/settings')return json(res,200,{external:{email:true},disable_signup:false,mailer_autoconfirm:true,invitation_required:true});
  throw fail(404,'Opération inconnue');
 }
 const publicReads=new Set(['blog_posts','cities','seo_articles','seo_faqs','seo_cities','seo_news','enterprise_seo_categories','enterprise_seo_articles','enterprise_seo_city_pages','enterprise_seo_faqs','enterprise_seo_news','internal_links','popup_configs','local_pages','faqs','seo_pages','professions','poles','products']);
 const publicWrites=new Set(['page_analytics','lead_tracking_sessions','lead_interactions','partner_applications','form_submissions']);
-const safeRpc=new Set(['get_leads_stats','get_quotes_stats','get_unread_emails_by_category','generate_invitation_token','increment_views','check_invitation_valid','accept_user_invitation']);
+const safeRpc=new Set(['get_leads_stats','get_quotes_stats','get_unread_emails_by_category','generate_invitation_token','increment_views','check_invitation_valid']);
 async function rest(req,res,url){
  const relative=url.pathname.replace('/api/platform/rest/v1/','');const table=relative.split('/')[0];const user=await currentUser(req);
  if(!/^[a-z_][a-z0-9_]*(?:\/[a-z_][a-z0-9_]*)?$/.test(relative))throw fail(404,'Ressource inconnue');
+ if(await invitations.rest(req,res,url,table,user)||await documents.rest(req,res,url,table,user))return;
  if(table==='rpc'){
   const fn=relative.split('/')[1];if(!safeRpc.has(fn))throw fail(403,'Fonction non autorisée');if(!['increment_views','check_invitation_valid','accept_user_invitation'].includes(fn)&&user?.profile_role!=='admin')throw fail(403,'Accès administrateur requis');
  }else if(!user){
@@ -85,10 +100,15 @@ async function rest(req,res,url){
 }
 async function functions(req,res,url){const name=url.pathname.split('/').at(-1);if(req.method!=='POST')throw fail(405,'Méthode non autorisée');
  if(name==='submit-lead'){rate(req,'lead',12);const lead=await createLead(await body(req),req);return json(res,200,{success:true,id:lead.id,reference:lead.reference});}
- if(name==='ai-chatbot'){await body(req);return json(res,200,{response:'Votre demande peut être étudiée par notre équipe. Appelez le 01 80 85 57 81 ou écrivez à contact@xcr.fr pour une réponse personnalisée.'});}
+ if(name==='ai-chatbot'){rate(req,'ai-chat',12);return json(res,200,await intelligence.chat(await body(req)));}
  const user=await currentUser(req,true);if(user.profile_role!=='admin')throw fail(403,'Accès administrateur requis');const data=await body(req);
+ if(name==='sync-ionos-imap')return json(res,200,await mailImport.sync(data,user));
+ const queuedOperations={'ai-email-classifier':'classify','generate-article':'article','generate-faq':'faq','generate-city-content':'city','process-content-queue':'queue'};
+ if(queuedOperations[name])return json(res,202,await jobs.enqueue(queuedOperations[name],data,user));
+ if(name==='crm-automation-engine')return json(res,200,await automation.run(data,user));
+ if(name==='scrape-insurance-news')return json(res,200,await news.scrape(user));
  if(name==='send-email-smtp'){if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.to||'')||!String(data.subject||'').trim())throw fail(400,'Destinataire et objet requis');await queueMail(data.to,String(data.subject).slice(0,300),String(data.body_text||''),data.body_html);return json(res,202,{success:true,queued:true});}
- if(name==='send-invitation-email'){const record=(await pool.query('select * from xcr_private.find_invitation($1,$2)',[data.invitationToken,data.to])).rows[0];if(!record)throw fail(404,'Invitation introuvable');await queueMail(record.email,'Invitation à votre espace XCR',`Bonjour ${record.first_name||''},\nVotre invitation : https://xcr.fr/signup?token=${encodeURIComponent(record.invitation_token)}`);return json(res,202,{success:true,queued:true});}
+ if(name==='send-invitation-email')return json(res,202,await invitations.mail(data,queueMail));
  throw fail(501,'Cette automatisation doit être raccordée au moteur natif du cabinet');
 }
 const mime={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.svg':'image/svg+xml','.png':'image/png','.json':'application/json; charset=utf-8','.xml':'application/xml; charset=utf-8','.txt':'text/plain; charset=utf-8','.ico':'image/x-icon'};
@@ -103,6 +123,8 @@ const server=http.createServer(async(req,res)=>{
   if(url.pathname.startsWith('/api/platform/auth/v1/'))return await auth(req,res,url);
   if(url.pathname.startsWith('/api/platform/rest/v1/'))return await rest(req,res,url);
   if(url.pathname.startsWith('/api/platform/functions/v1/'))return await functions(req,res,url);
+  if(url.pathname.startsWith('/api/platform/jobs/v1/')&&req.method==='GET'){const user=await currentUser(req,true);if(user.profile_role!=='admin')throw fail(403,'Accès administrateur requis');return json(res,200,await jobs.status(url.pathname.split('/').at(-1),user));}
+  if(await documents.handle(req,res,url))return;
   if(url.pathname.startsWith('/api/'))throw fail(404,'Ressource API inconnue');
   if(!['GET','HEAD'].includes(req.method))throw fail(405,'Méthode non autorisée');
   const decoded=safeFilePath(url.pathname);if(decoded===null)throw fail(404,'Fichier introuvable');
@@ -112,7 +134,7 @@ const server=http.createServer(async(req,res)=>{
  }catch(e){if(!e.status)console.error(JSON.stringify({at:new Date().toISOString(),error:e.code||e.name,route:req.url?.split('?')[0]}));if(!res.headersSent)apiError(res,e);else res.end();}
 });
 let delivering=false;
-async function deliverOutbox(){if(delivering||!process.env.XCR_SMTP_PASSWORD)return;delivering=true;let transport;try{transport=nodemailer.createTransport({host:process.env.XCR_SMTP_HOST||'mail.xcr.fr',port:Number(process.env.XCR_SMTP_PORT||465),secure:process.env.XCR_SMTP_SECURE!=='false',auth:{user:process.env.XCR_SMTP_USER||'contact@xcr.fr',pass:process.env.XCR_SMTP_PASSWORD},connectionTimeout:10000,socketTimeout:20000});const rows=(await pool.query("select * from xcr_private.outbox where status='pending' and attempts<5 and available_at<=now() order by created_at limit 5")).rows;for(const mail of rows){await pool.query('update xcr_private.outbox set attempts=attempts+1 where id=$1',[mail.id]);try{await transport.sendMail({from:process.env.XCR_SMTP_USER||'contact@xcr.fr',to:mail.recipient,subject:mail.subject,text:mail.body_text,html:mail.body_html||undefined});await pool.query("update xcr_private.outbox set status='sent',sent_at=now() where id=$1",[mail.id]);}catch{await pool.query("update xcr_private.outbox set available_at=now()+interval '15 minutes' where id=$1",[mail.id]);}}}catch{console.error('Native outbox temporarily unavailable');}finally{transport?.close();delivering=false;}}
+async function deliverOutbox(){if(delivering||process.env.XCR_DISABLE_MAIL_DELIVERY==='true'||!process.env.XCR_SMTP_PASSWORD)return;delivering=true;let transport;try{transport=nodemailer.createTransport({host:process.env.XCR_SMTP_HOST||'mail.xcr.fr',port:Number(process.env.XCR_SMTP_PORT||465),secure:process.env.XCR_SMTP_SECURE!=='false',auth:{user:process.env.XCR_SMTP_USER||'contact@xcr.fr',pass:process.env.XCR_SMTP_PASSWORD},connectionTimeout:10000,socketTimeout:20000});const rows=(await pool.query("select * from xcr_private.outbox where status='pending' and attempts<5 and available_at<=now() order by created_at limit 5")).rows;for(const mail of rows){await pool.query('update xcr_private.outbox set attempts=attempts+1 where id=$1',[mail.id]);try{await transport.sendMail({from:process.env.XCR_SMTP_USER||'contact@xcr.fr',to:mail.recipient,subject:mail.subject,text:mail.body_text,html:mail.body_html||undefined});await pool.query("update xcr_private.outbox set status='sent',sent_at=now() where id=$1",[mail.id]);}catch{await pool.query("update xcr_private.outbox set available_at=now()+interval '15 minutes' where id=$1",[mail.id]);}}}catch{console.error('Native outbox temporarily unavailable');}finally{transport?.close();delivering=false;}}
 const timer=setInterval(deliverOutbox,30000);timer.unref();
 server.listen(Number(process.env.XCR_PORT||18896),process.env.XCR_HOST||'127.0.0.1',()=>console.log('XCR native site started'));
 process.on('SIGTERM',()=>server.close(()=>pool.end().finally(()=>process.exit(0))));

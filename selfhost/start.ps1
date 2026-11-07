@@ -27,5 +27,8 @@ $restReady=$false;$restDeadline=(Get-Date).AddSeconds(25)
 do{try{$probe=Invoke-WebRequest -UseBasicParsing -Uri 'http://127.0.0.1:18897/blog_posts?select=id&limit=0' -TimeoutSec 2;if($probe.StatusCode -eq 200){$restReady=$true;break}}catch{};Start-Sleep -Milliseconds 500}while((Get-Date)-lt$restDeadline)
 if(!$restReady){throw 'The XCR database API is not ready'}
 $webVars=@{XCR_DATABASE_URL=$config.web_database_url;XCR_JWT_SECRET=$config.jwt_secret;XCR_HOST='127.0.0.1';XCR_PORT='18896';XCR_REST_ORIGIN='http://127.0.0.1:18897';XCR_SMTP_HOST='mail.xcr.fr';XCR_SMTP_PORT='465';XCR_SMTP_SECURE='true';XCR_SMTP_USER='contact@xcr.fr';XCR_SMTP_PASSWORD=$config.smtp_password}
+$webVars['XCR_STORAGE_ROOT']=Join-Path $root 'documents'
+$webVars['XCR_IMAP_HOST']='mail.xcr.fr';$webVars['XCR_IMAP_USER']='contact@xcr.fr';$webVars['XCR_IMAP_PASSWORD']=$config.smtp_password
+$webVars['XCR_LOCAL_AI_URL']=$config.local_ai_url;$webVars['XCR_LOCAL_AI_KEY']=$config.local_ai_api_key;$webVars['XCR_LOCAL_AI_MODEL']=$config.local_ai_model
 Start-XcrProcess 'web' 'C:\Program Files\nodejs\node.exe' ('"'+(Join-Path $app 'server.mjs')+'"') $webVars
 if($config.tunnel_token){Start-XcrProcess 'tunnel' 'C:\Cloudflared\bin\cloudflared.exe' 'tunnel --no-autoupdate run' @{TUNNEL_TOKEN=$config.tunnel_token}}

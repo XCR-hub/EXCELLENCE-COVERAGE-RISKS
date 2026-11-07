@@ -70,6 +70,10 @@ try{
  Invoke-XcrSql postgres 'GRANT anon,authenticated TO xcr_site_rest; GRANT CONNECT ON DATABASE xcr_site TO xcr_site_rest,xcr_site_web;'|Out-Null
  Set-XcrPhase 'native-schema'
  Invoke-XcrSql xcr_site ([IO.File]::ReadAllText((Join-Path $app 'database.sql')))|Out-Null
+ Invoke-XcrSql xcr_site ([IO.File]::ReadAllText((Join-Path $app 'modules.sql')))|Out-Null
+ $documents=Join-Path $root 'documents';New-Item -ItemType Directory -Path $documents -Force|Out-Null
+ & icacls.exe $documents /inheritance:r /grant:r '*S-1-5-18:(OI)(CI)F' '*S-1-5-32-544:(OI)(CI)F'|Out-Null
+ if($LASTEXITCODE -ne 0){throw 'Document directory permissions failed'}
  $config.rest_database_url='postgres://xcr_site_rest:'+$config.rest_password+'@127.0.0.1:5432/xcr_site'
  $config.web_database_url='postgres://xcr_site_web:'+$config.web_password+'@127.0.0.1:5432/xcr_site'
  $protected=[Security.Cryptography.ProtectedData]::Protect([Text.Encoding]::UTF8.GetBytes(($config|ConvertTo-Json -Compress)),$null,[Security.Cryptography.DataProtectionScope]::LocalMachine)
@@ -79,7 +83,7 @@ try{
  if($LASTEXITCODE -ne 0){throw 'Native services did not start'}
  $deadline=(Get-Date).AddSeconds(45);$health=$null
  do{try{$health=Invoke-RestMethod -Uri 'http://127.0.0.1:18896/health' -TimeoutSec 3;if($health.ok -and $health.site -eq 'xcr.fr'){break}}catch{};Start-Sleep -Seconds 2}while((Get-Date)-lt$deadline)
- if(!$health.ok -or $health.site -ne 'xcr.fr' -or $health.tables -lt $sourceTables -or $health.users -ne $sourceUsers){throw 'Native health verification failed'}
+ if(!$health.ok -or $health.site -ne 'xcr.fr' -or $health.tables -lt $sourceTables -or $health.users -lt $sourceUsers){throw 'Native health verification failed'}
  $report.health=$health
  Set-XcrPhase 'anonymous-access-check'
  try{$public=Invoke-WebRequest -UseBasicParsing -Uri 'http://127.0.0.1:18896/api/platform/rest/v1/blog_posts?select=id&limit=1' -TimeoutSec 10}

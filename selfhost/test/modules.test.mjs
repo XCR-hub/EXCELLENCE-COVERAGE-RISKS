@@ -1,0 +1,10 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {safeObjectKey,validateDocument} from '../documents.mjs';
+import {cleanMailHtml} from '../mail.mjs';
+import {parseAiJson,cleanContent} from '../intelligence.mjs';
+import {conditionMatches} from '../automation.mjs';
+test('private document keys reject traversal and executable content',()=>{for(const key of ['../secret','a/../secret','/secret','a\\secret','a/\0x'])assert.throws(()=>safeObjectKey(key));assert.equal(safeObjectKey('dossier/contrat.pdf'),'dossier/contrat.pdf');assert.throws(()=>validateDocument('contrat.pdf',Buffer.from('<script>alert(1)</script>')));assert.throws(()=>validateDocument('code.exe',Buffer.from('MZ')));assert.equal(validateDocument('contrat.pdf',Buffer.from('%PDF-1.4\n%%EOF')),'application/pdf');});
+test('imported email HTML blocks script execution and tracking images',()=>{const html=cleanMailHtml('<script>alert(1)</script><img src="https://tracker.example/pixel"><a href="javascript:alert(1)" onclick="attack()">lien</a><p>Texte</p>');assert.doesNotMatch(html,/script|<img|onclick|javascript/i);assert.match(html,/<p>Texte<\/p>/);});
+test('AI responses must be valid JSON and generated HTML is sanitized',()=>{assert.deepEqual(parseAiJson('```json\n{"ok":true}\n```'),{ok:true});assert.throws(()=>parseAiJson('{invalid'));assert.doesNotMatch(cleanContent('<iframe src="x"></iframe><p onclick="x()">Texte</p>'),/iframe|onclick/);});
+test('automation conditions fail closed for unknown operators',()=>{assert.equal(conditionMatches({field:'status',operator:'eq',value:'nouveau'},{status:'nouveau'}),true);assert.equal(conditionMatches({field:'status',operator:'eq',value:'qualifie'},{status:'nouveau'}),false);assert.throws(()=>conditionMatches({field:'status',operator:'execute'},{status:'nouveau'}));});

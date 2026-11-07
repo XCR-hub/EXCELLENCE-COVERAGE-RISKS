@@ -21,14 +21,19 @@ for(const file of files){
  if(file.endsWith('.js')) value=value.replaceAll('"https://xcr.fr/api/platform"','(location.origin+"/api/platform")');
  value=value.replaceAll('https://www.googletagmanager.com/gtag/js?id=G-TEST123456','/assets/analytics-disabled.js');
  value=value.replaceAll('test_verification','');
+ value=value.replaceAll('Queue de génération traitée avec succès','Traitement du prochain contenu lancé');
+ value=value.replaceAll('Article généré avec succès','Génération lancée. Le résultat sera signalé dès qu’il sera prêt.');
+ value=value.replaceAll('Page ville générée avec succès','Génération lancée. Le résultat sera signalé dès qu’il sera prêt.');
+ value=value.replaceAll('`${s.count} FAQ générées avec succès`','"Génération des FAQ lancée. Le résultat sera signalé dès qu’il sera prêt."');
  if(file.endsWith('index.html')){
   value=value.replace(/<script\b[^>]*\bsrc=["']https:\/\/bolt\.new\/[^"']*["'][^>]*>\s*<\/script>/gi,'');
   value=value.replace('href="/vite.svg"','href="/logos/logo_xcr_new.png"');
-  value=value.replace('</head>','<style>html,body{max-width:100%;overflow-x:clip}</style>\n</head>');
+  value=value.replace('</head>','<style>html,body{max-width:100%;overflow-x:clip}</style>\n<script src="/assets/native-jobs.js" defer></script>\n</head>');
  }
  await fs.writeFile(file,value);
 }
 await fs.writeFile(path.join(target,'assets','analytics-disabled.js'),'/* No production analytics identifier configured. */\n');
+await fs.writeFile(path.join(target,'assets','native-jobs.js'),`(()=>{const original=window.fetch.bind(window);window.fetch=async(...args)=>{const response=await original(...args);const url=String(args[0]?.url||args[0]);if(url.includes('/api/platform/functions/v1/')&&response.status===202){const job=await response.clone().json().catch(()=>null);if(job?.job_id){let attempts=0;const poll=async()=>{try{const status=await original('/api/platform/jobs/v1/'+encodeURIComponent(job.job_id),{cache:'no-store'});if(!status.ok)return;const result=await status.json();if(result.status==='completed'){alert('Traitement IA terminé. Actualisez la liste pour consulter le résultat. Les nouveaux contenus restent en brouillon.');return;}if(result.status==='failed'){alert('Le traitement IA a échoué : '+(result.error_message||'Réessayez.'));return;}if(++attempts<240)setTimeout(poll,5000);}catch{if(++attempts<240)setTimeout(poll,5000);}};setTimeout(poll,3000);}}return response;};})();\n`);
 await fs.writeFile(path.join(target,'sw.js'),`self.addEventListener('install',()=>self.skipWaiting());self.addEventListener('activate',event=>event.waitUntil(Promise.all([caches.keys().then(keys=>Promise.all(keys.map(key=>caches.delete(key)))),self.clients.claim()])));\n`);
 let commit=process.env.XCR_COMMIT||'';try{commit=execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8',windowsHide:true}).trim()}catch{}
 await fs.writeFile(path.join(target,'deploy-info.json'),JSON.stringify({site:'xcr.fr',commit,platform:'SERVEUR-XCR + Cloudflare proxy',built_at:new Date().toISOString()},null,2));
