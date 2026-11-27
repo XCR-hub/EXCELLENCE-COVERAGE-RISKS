@@ -1,3 +1,4 @@
+import {rewritePublicReception} from './reception-seo.mjs';
 import {rewriteContactSeo} from './contact-seo.mjs';
 import fs from 'node:fs/promises';
 import path from 'node:path';
@@ -38,7 +39,7 @@ const canonicalCode=legacyCanonicalCode
 if(/287 avis Google|247 avis clients|4\.8\/5 avis clients/.test(canonicalCode))throw Error('Recovered public rating text still present');
 if(/4\.[89]\/5 Google|247 avis verifies/.test(canonicalCode))throw Error('Recovered unsupported rating badge still present');
 if(canonicalCode===recoveredCode)throw Error('Legacy XCR origin not found in recovered entry');
-await fs.writeFile(recoveredEntryPath,rewriteContactSeo(canonicalCode));
+await fs.writeFile(recoveredEntryPath,rewritePublicReception(rewriteContactSeo(canonicalCode)));
 const appRoutes=[...new Set([...recoveredCode.matchAll(/path:"(\/[^"]*)",element:/g)].map(match=>match[1]))].sort();
 if(!['/','/contact','/dashboard/*','/blog/:postSlug','/entreprises/ville/:cityPageSlug'].every(route=>appRoutes.includes(route)))throw Error('Recovered router definitions not found');
 await fs.writeFile(path.join(target,'app-routes.json'),JSON.stringify(appRoutes,null,2)+'\n');
