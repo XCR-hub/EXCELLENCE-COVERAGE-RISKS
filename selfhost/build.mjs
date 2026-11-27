@@ -16,7 +16,13 @@ const recoveredCode=await fs.readFile(recoveredEntryPath,'utf8');
 const legacyCanonicalCode=recoveredCode.replaceAll('https://xcr-courtier.fr','https://xcr.fr');
 const errorPageCanonical='canonicalUrl:"https://xcr.fr/404"';
 if(legacyCanonicalCode.split(errorPageCanonical).length!==2)throw Error('Expected exactly one recovered error page SEO configuration');
-const canonicalCode=legacyCanonicalCode.replace(errorPageCanonical,errorPageCanonical+',noindex:!0');
+const melunAddress='streetAddress:"2 Avenue Gallieni, Le CATG",addressLocality:"Melun",postalCode:"77000"';
+const obsoleteAddress='streetAddress:"26 Rue Pages",addressLocality:"Suresnes",postalCode:"92150"';
+if(!legacyCanonicalCode.includes(obsoleteAddress))throw Error('Expected recovered XCR address not found');
+const canonicalCode=legacyCanonicalCode
+ .replace(errorPageCanonical,errorPageCanonical+',noindex:!0')
+ .replaceAll(obsoleteAddress,melunAddress)
+ .replace(',Ct.jsx("meta",{name:"geo.region",content:"FR-92"}),Ct.jsx("meta",{name:"geo.placename",content:"Suresnes"}),Ct.jsx("meta",{name:"geo.position",content:"48.8698;2.2285"}),Ct.jsx("meta",{name:"ICBM",content:"48.8698, 2.2285"})','');
 if(canonicalCode===recoveredCode)throw Error('Legacy XCR origin not found in recovered entry');
 await fs.writeFile(recoveredEntryPath,canonicalCode);
 const appRoutes=[...new Set([...recoveredCode.matchAll(/path:"(\/[^"]*)",element:/g)].map(match=>match[1]))].sort();
