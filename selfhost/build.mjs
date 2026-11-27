@@ -19,6 +19,9 @@ if(legacyCanonicalCode.split(errorPageCanonical).length!==2)throw Error('Expecte
 const canonicalCode=legacyCanonicalCode.replace(errorPageCanonical,errorPageCanonical+',noindex:!0');
 if(canonicalCode===recoveredCode)throw Error('Legacy XCR origin not found in recovered entry');
 await fs.writeFile(recoveredEntryPath,canonicalCode);
+const appRoutes=[...new Set([...recoveredCode.matchAll(/path:"(\/[^"]*)",element:/g)].map(match=>match[1]))].sort();
+if(!['/','/contact','/dashboard/*','/blog/:postSlug','/entreprises/ville/:cityPageSlug'].every(route=>appRoutes.includes(route)))throw Error('Recovered router definitions not found');
+await fs.writeFile(path.join(target,'app-routes.json'),JSON.stringify(appRoutes,null,2)+'\n');
 const files=[];
 async function walk(dir){for(const entry of await fs.readdir(dir,{withFileTypes:true})){const file=path.join(dir,entry.name);if(entry.isDirectory())await walk(file);else files.push(file);}}
 await walk(target);

@@ -21,6 +21,15 @@ if(secret.length<40)throw Error('XCR_JWT_SECRET must contain at least 40 charact
 const pool=new pg.Pool({connectionString:process.env.XCR_DATABASE_URL,max:8,connectionTimeoutMillis:5000,statement_timeout:15000});
 const restOrigin=process.env.XCR_REST_ORIGIN||'http://127.0.0.1:18897';
 const staticRoot=path.join(root,'dist');
+const appRoutePaths=JSON.parse(await fs.readFile(path.join(staticRoot,'app-routes.json'),'utf8'));
+const appRoutes=appRoutePaths.map(pattern=>{
+ const segments=pattern.split('/').slice(1).filter(Boolean).map(segment=>{
+  if(segment==='*')return '(?:/.*)?';
+  if(segment.startsWith(':'))return '/[^/]+';
+  return '/'+segment.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+ });
+ return new RegExp('^'+segments.join('')+'/*$','i');
+});
 const limits=new Map();
 const json=(res,status,data,headers={})=>{res.writeHead(status,{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store',...headers});res.end(JSON.stringify(data));};
 const fail=(status,message)=>Object.assign(new Error(message),{status});
@@ -128,9 +137,15 @@ const server=http.createServer(async(req,res)=>{
   if(url.pathname.startsWith('/api/'))throw fail(404,'Ressource API inconnue');
   if(!['GET','HEAD'].includes(req.method))throw fail(405,'Méthode non autorisée');
   const decoded=safeFilePath(url.pathname);if(decoded===null)throw fail(404,'Fichier introuvable');
-  let file=path.join(staticRoot,decoded);try{if(!(await fs.stat(file)).isFile())file=path.join(staticRoot,'index.html');}catch{if(path.extname(decoded))throw fail(404,'Fichier introuvable');file=path.join(staticRoot,'index.html');}
+  let file=path.join(staticRoot,decoded),status=200;
+  const stat=await fs.stat(file).catch(error=>{if(error.code!=='ENOENT'&&error.code!=='ENOTDIR')throw error;});
+  if(!stat?.isFile()){
+   if(path.extname(decoded)&&!appRoutes.some(route=>route.test(url.pathname)))throw fail(404,'Fichier introuvable');
+   if(!appRoutes.some(route=>route.test(url.pathname)))status=404;
+   file=path.join(staticRoot,'index.html');
+  }
   const data=await fs.readFile(file);const type=mime[path.extname(file)]||'application/octet-stream';
-  res.writeHead(200,{'Content-Type':type,'Content-Length':data.length,'Cache-Control':file.endsWith('index.html')||file.endsWith('sw.js')?'no-cache, no-store, must-revalidate':'public, max-age=300'});res.end(req.method==='HEAD'?undefined:data);
+  res.writeHead(status,{'Content-Type':type,'Content-Length':data.length,'Cache-Control':file.endsWith('index.html')||file.endsWith('sw.js')?'no-cache, no-store, must-revalidate':'public, max-age=300'});res.end(req.method==='HEAD'?undefined:data);
  }catch(e){if(!e.status)console.error(JSON.stringify({at:new Date().toISOString(),error:e.code||e.name,route:req.url?.split('?')[0]}));if(!res.headersSent)apiError(res,e);else res.end();}
 });
 let delivering=false;
