@@ -45,12 +45,13 @@ if(canonicalCode===recoveredCode)throw Error('Legacy XCR origin not found in rec
 const outdatedFleetCanonical='href:"https://xcr.fr/entreprises/assurance-flotte-auto-pme"';
 if(canonicalCode.split(outdatedFleetCanonical).length!==2)throw Error('Expected a single fleet page canonical');
 let correctedRouteCode=canonicalCode.replace(outdatedFleetCanonical,'href:"https://xcr.fr/entreprises/flotte-auto-pme"');
-for (const [before,after] of [
+for (const [before,after,expected=1] of [
   ['to:"/entreprises/epargne-entreprise"','to:"/entreprises/epargne-salariale"'],
   ['path:"/particuliers/moto"','path:"/assurance-moto"'],
+  ['to:"/particuliers/scolaire"','to:"/particuliers/assurance-scolaire"',2],
 ]) {
-  if (correctedRouteCode.split(before).length!==2) throw Error('Expected one recovered broken internal link: '+before);
-  correctedRouteCode=correctedRouteCode.replace(before,after);
+  if (correctedRouteCode.split(before).length!==expected+1) throw Error('Expected one recovered broken internal link: '+before);
+  correctedRouteCode=correctedRouteCode.replaceAll(before,after);
 }
 await fs.writeFile(recoveredEntryPath,rewriteProductClaims(rewriteProductMetadata(rewritePartnerLandingSeo(optimizeHomeIllustrations(rewriteHomeIllustrations(linkHomeAgencies(rewriteHomeClaims(rewriteHomeResponseTimes(rewritePublicReception(rewriteContactSeo(correctedRouteCode)))))))))));
 const appRoutes=[...new Set([...recoveredCode.matchAll(/path:"(\/[^"]*)",element:/g)].map(match=>match[1]))].sort();
