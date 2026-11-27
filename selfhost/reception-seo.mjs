@@ -143,6 +143,7 @@ export function rewriteHomeIllustrations(code) {
   return updateSection(code, ',Rl=({className:', ',Il=({className:', [
     [portrait, '', 1],
     [stockMeeting, meetingFigure, 1],
+    [',{"@type":"OpeningHoursSpecification",dayOfWeek:"Saturday",opens:"09:00",closes:"12:00"}', '', 1],
     ['children:"ORIAS certifie"', 'children:"Inscrit à l’ORIAS"', 1],
   ]);
 }
