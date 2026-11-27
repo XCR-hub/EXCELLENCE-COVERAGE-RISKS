@@ -22,7 +22,8 @@ if(!legacyCanonicalCode.includes(obsoleteAddress))throw Error('Expected recovere
 const canonicalCode=legacyCanonicalCode
  .replace(errorPageCanonical,errorPageCanonical+',noindex:!0')
  .replaceAll(obsoleteAddress,melunAddress)
- .replace(',Ct.jsx("meta",{name:"geo.region",content:"FR-92"}),Ct.jsx("meta",{name:"geo.placename",content:"Suresnes"}),Ct.jsx("meta",{name:"geo.position",content:"48.8698;2.2285"}),Ct.jsx("meta",{name:"ICBM",content:"48.8698, 2.2285"})','');
+ .replace(',Ct.jsx("meta",{name:"geo.region",content:"FR-92"}),Ct.jsx("meta",{name:"geo.placename",content:"Suresnes"}),Ct.jsx("meta",{name:"geo.position",content:"48.8698;2.2285"}),Ct.jsx("meta",{name:"ICBM",content:"48.8698, 2.2285"})','')
+ .replace(/,aggregateRating:\{"@type":"AggregateRating",ratingValue:"[0-9.]+",reviewCount:"[0-9]+"(?:,bestRating:"5")?\}/g,'');
 if(canonicalCode===recoveredCode)throw Error('Legacy XCR origin not found in recovered entry');
 await fs.writeFile(recoveredEntryPath,canonicalCode);
 const appRoutes=[...new Set([...recoveredCode.matchAll(/path:"(\/[^"]*)",element:/g)].map(match=>match[1]))].sort();
