@@ -135,3 +135,15 @@ export function linkHomeAgencies(code) {
     [streetList, streetList + ',' + agencyLink, 1],
   ]);
 }
+
+export function rewriteHomeIllustrations(code) {
+  const portrait = 'Ct.jsx("img",{src:e.image,alt:e.name,className:"w-10 h-10 rounded-full object-cover ring-2 ring-orange-100"}),';
+  const stockMeeting = 'Ct.jsx("img",{src:"https://images.pexels.com/photos/3184357/pexels-photo-3184357.jpeg",alt:"Conseillers XCR Courtier en reunion",className:"relative rounded-2xl shadow-2xl w-full h-[440px] object-cover"})';
+  const meetingFigure = 'Ct.jsxs("figure",{className:"relative",children:[' + stockMeeting.replace('Conseillers XCR Courtier en reunion', 'Illustration d’une réunion de travail') + ',Ct.jsx("figcaption",{className:"absolute bottom-2 left-2 rounded bg-slate-900 px-2 py-1 text-xs text-white",children:"Photo d’illustration"})]})';
+  return updateSection(code, ',Rl=({className:', ',Il=({className:', [
+    [portrait, '', 1],
+    [stockMeeting, meetingFigure, 1],
+    [',{"@type":"OpeningHoursSpecification",dayOfWeek:"Saturday",opens:"09:00",closes:"12:00"}', '', 1],
+    ['children:"ORIAS certifie"', 'children:"Inscrit à l’ORIAS"', 1],
+  ]);
+}
