@@ -147,3 +147,12 @@ export function rewriteHomeIllustrations(code) {
     ['children:"ORIAS certifie"', 'children:"Inscrit à l’ORIAS"', 1],
   ]);
 }
+
+export function optimizeHomeIllustrations(code) {
+  return updateSection(code, ',Rl=({className:', ',Il=({className:', [
+    ['1105766/pexels-photo-1105766.jpeg"', '1105766/pexels-photo-1105766.jpeg?auto=compress&cs=tinysrgb&w=960"', 1],
+    ['7430009/pexels-photo-7430009.jpeg?auto=compress&cs=tinysrgb&w=1200"', '7430009/pexels-photo-7430009.jpeg?auto=compress&cs=tinysrgb&w=960"', 1],
+    ['3184357/pexels-photo-3184357.jpeg",alt:', '3184357/pexels-photo-3184357.jpeg?auto=compress&cs=tinysrgb&w=960",loading:"lazy",decoding:"async",alt:', 1],
+    ['Ct.jsx("img",{src:e.img,alt:', 'Ct.jsx("img",{src:e.img,loading:"lazy",decoding:"async",alt:', 1],
+  ]);
+}
