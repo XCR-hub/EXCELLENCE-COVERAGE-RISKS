@@ -1,0 +1,32 @@
+name: Controle des sitemaps XCR
+
+on:
+  schedule:
+    - cron: '17 6 * * 1'
+  workflow_dispatch:
+  push:
+    branches: [codex/controle-sitemaps-xcr]
+    paths:
+      - '.github/workflows/controle-sitemaps.yml'
+      - '.github/scripts/Controle-Sitemaps.ps1'
+
+permissions:
+  contents: read
+
+jobs:
+  controle:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verifier les sitemaps publics
+        shell: pwsh
+        run: ./.github/scripts/Controle-Sitemaps.ps1 -ReportPath ./controle-sitemaps.csv
+      - name: Archiver le rapport
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: controle-sitemaps-${{ github.run_id }}-${{ github.run_attempt }}
+          path: controle-sitemaps.csv
+          if-no-files-found: error
+          retention-days: 30
