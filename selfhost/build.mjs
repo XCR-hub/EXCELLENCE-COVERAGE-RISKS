@@ -44,8 +44,15 @@ if(/4\.[89]\/5 Google|247 avis verifies/.test(canonicalCode))throw Error('Recove
 if(canonicalCode===recoveredCode)throw Error('Legacy XCR origin not found in recovered entry');
 const outdatedFleetCanonical='href:"https://xcr.fr/entreprises/assurance-flotte-auto-pme"';
 if(canonicalCode.split(outdatedFleetCanonical).length!==2)throw Error('Expected a single fleet page canonical');
-const fleetCanonicalCode=canonicalCode.replace(outdatedFleetCanonical,'href:"https://xcr.fr/entreprises/flotte-auto-pme"');
-await fs.writeFile(recoveredEntryPath,rewriteProductClaims(rewriteProductMetadata(rewritePartnerLandingSeo(optimizeHomeIllustrations(rewriteHomeIllustrations(linkHomeAgencies(rewriteHomeClaims(rewriteHomeResponseTimes(rewritePublicReception(rewriteContactSeo(fleetCanonicalCode)))))))))));
+let correctedRouteCode=canonicalCode.replace(outdatedFleetCanonical,'href:"https://xcr.fr/entreprises/flotte-auto-pme"');
+for (const [before,after] of [
+  ['to:"/entreprises/epargne-entreprise"','to:"/entreprises/epargne-salariale"'],
+  ['path:"/particuliers/moto"','path:"/assurance-moto"'],
+]) {
+  if (correctedRouteCode.split(before).length!==2) throw Error('Expected one recovered broken internal link: '+before);
+  correctedRouteCode=correctedRouteCode.replace(before,after);
+}
+await fs.writeFile(recoveredEntryPath,rewriteProductClaims(rewriteProductMetadata(rewritePartnerLandingSeo(optimizeHomeIllustrations(rewriteHomeIllustrations(linkHomeAgencies(rewriteHomeClaims(rewriteHomeResponseTimes(rewritePublicReception(rewriteContactSeo(correctedRouteCode)))))))))));
 const appRoutes=[...new Set([...recoveredCode.matchAll(/path:"(\/[^"]*)",element:/g)].map(match=>match[1]))].sort();
 if(!['/','/contact','/dashboard/*','/blog/:postSlug','/entreprises/ville/:cityPageSlug'].every(route=>appRoutes.includes(route)))throw Error('Recovered router definitions not found');
 await fs.writeFile(path.join(target,'app-routes.json'),JSON.stringify(appRoutes,null,2)+'\n');
