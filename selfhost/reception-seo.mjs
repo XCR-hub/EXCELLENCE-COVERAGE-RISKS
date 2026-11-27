@@ -150,6 +150,8 @@ export function rewriteHomeIllustrations(code) {
 
 export function optimizeHomeIllustrations(code) {
   return updateSection(code, ',Rl=({className:', ',Il=({className:', [
+    ['children:"Courtier Assurance Professionnel | RC Pro, Decennale, Multirisque | XCR Courtier"', 'children:"Courtier en assurances professionnelles | XCR Assurances"', 1],
+    ['property:"og:title",content:"Courtier Assurance Professionnel | RC Pro, Decennale | XCR"', 'property:"og:title",content:"Courtier en assurances professionnelles | XCR Assurances"', 1],
     ['1105766/pexels-photo-1105766.jpeg"', '1105766/pexels-photo-1105766.jpeg?auto=compress&cs=tinysrgb&w=960"', 1],
     ['7430009/pexels-photo-7430009.jpeg?auto=compress&cs=tinysrgb&w=1200"', '7430009/pexels-photo-7430009.jpeg?auto=compress&cs=tinysrgb&w=960"', 1],
     ['3184357/pexels-photo-3184357.jpeg",alt:', '3184357/pexels-photo-3184357.jpeg?auto=compress&cs=tinysrgb&w=960",loading:"lazy",decoding:"async",alt:', 1],
