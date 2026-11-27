@@ -121,6 +121,11 @@ async function functions(req,res,url){const name=url.pathname.split('/').at(-1);
  throw fail(501,'Cette automatisation doit être raccordée au moteur natif du cabinet');
 }
 const mime={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.svg':'image/svg+xml','.png':'image/png','.json':'application/json; charset=utf-8','.xml':'application/xml; charset=utf-8','.txt':'text/plain; charset=utf-8','.ico':'image/x-icon'};
+const retiredPublicRoutes=new Map([
+ ['/entreprises/epargne-entreprise','/entreprises/epargne-salariale'],
+ ['/particuliers/moto','/assurance-moto'],
+ ['/particuliers/scolaire','/particuliers/assurance-scolaire'],
+]);
 const server=http.createServer(async(req,res)=>{
  res.setHeader('X-Content-Type-Options','nosniff');res.setHeader('X-Frame-Options','DENY');res.setHeader('Referrer-Policy','strict-origin-when-cross-origin');res.setHeader('X-XCR-Hosting','selfhost-cloudflare');
  try{
@@ -136,6 +141,8 @@ const server=http.createServer(async(req,res)=>{
   if(await documents.handle(req,res,url))return;
   if(url.pathname.startsWith('/api/'))throw fail(404,'Ressource API inconnue');
   if(!['GET','HEAD'].includes(req.method))throw fail(405,'Méthode non autorisée');
+  const replacement=retiredPublicRoutes.get(url.pathname);
+  if(replacement){res.writeHead(308,{Location:replacement+url.search});return res.end();}
   const decoded=safeFilePath(url.pathname);if(decoded===null)throw fail(404,'Fichier introuvable');
   let file=path.join(staticRoot,decoded),status=200;
   const stat=await fs.stat(file).catch(error=>{if(error.code!=='ENOENT'&&error.code!=='ENOTDIR')throw error;});
