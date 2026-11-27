@@ -1,4 +1,5 @@
 const productClaims = [
+  ["et scooter a Melun -- -35%", "et scooter à Melun"],
   [
     "et moto a Melun -- Jusqu'a -40%",
     "et moto à Melun"
