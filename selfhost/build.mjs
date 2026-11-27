@@ -1,5 +1,5 @@
 import {rewritePartnerLandingSeo} from './partner-seo.mjs';
-import {rewritePublicReception} from './reception-seo.mjs';
+import {rewritePublicReception,rewriteHomeResponseTimes} from './reception-seo.mjs';
 import {rewriteContactSeo} from './contact-seo.mjs';
 import fs from 'node:fs/promises';
 import path from 'node:path';
@@ -43,7 +43,7 @@ if(canonicalCode===recoveredCode)throw Error('Legacy XCR origin not found in rec
 const outdatedFleetCanonical='href:"https://xcr.fr/entreprises/assurance-flotte-auto-pme"';
 if(canonicalCode.split(outdatedFleetCanonical).length!==2)throw Error('Expected a single fleet page canonical');
 const fleetCanonicalCode=canonicalCode.replace(outdatedFleetCanonical,'href:"https://xcr.fr/entreprises/flotte-auto-pme"');
-await fs.writeFile(recoveredEntryPath,rewritePartnerLandingSeo(rewritePublicReception(rewriteContactSeo(fleetCanonicalCode))));
+await fs.writeFile(recoveredEntryPath,rewritePartnerLandingSeo(rewriteHomeResponseTimes(rewritePublicReception(rewriteContactSeo(fleetCanonicalCode)))));
 const appRoutes=[...new Set([...recoveredCode.matchAll(/path:"(\/[^"]*)",element:/g)].map(match=>match[1]))].sort();
 if(!['/','/contact','/dashboard/*','/blog/:postSlug','/entreprises/ville/:cityPageSlug'].every(route=>appRoutes.includes(route)))throw Error('Recovered router definitions not found');
 await fs.writeFile(path.join(target,'app-routes.json'),JSON.stringify(appRoutes,null,2)+'\n');
