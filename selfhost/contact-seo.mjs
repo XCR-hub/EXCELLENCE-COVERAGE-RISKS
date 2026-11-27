@@ -54,7 +54,7 @@ export function rewriteContactSeo(code) {
     }
     code = code.replace(before, after);
   }
-  return rewriteContactReception(code);
+  return addContactMapsLinks(rewriteContactReception(code));
 }
 
 export function rewriteContactReception(code) {
@@ -76,4 +76,19 @@ export function rewriteContactReception(code) {
     contact = contact.replace(previous, current);
   }
   return code.slice(0, start) + contact + 'Samedi : Fermé' + code.slice(end + oldHours.length);
+}
+
+export function addContactMapsLinks(code) {
+  for (const [address, label, cid] of [
+    ['77000 Melun, France', 'Voir l’agence de Melun sur Google Maps', '3255626370591104442'],
+    ['91490 Milly-la-Forêt, France', 'Voir l’agence de Milly-la-Forêt sur Google Maps', '1756704429748274439'],
+  ]) {
+    const before = JSON.stringify(address) + ']})';
+    if (code.indexOf(before) < 0 || code.lastIndexOf(before) !== code.indexOf(before)) {
+      throw new Error('Expected a single public contact address for ' + address);
+    }
+    const link = 'Ct.jsx("a",{href:"https://www.google.com/maps?cid=' + cid + '",className:"mt-2 inline-block text-blue-100 underline hover:text-white",children:' + JSON.stringify(label) + '})';
+    code = code.replace(before, before + ',' + link);
+  }
+  return code;
 }
