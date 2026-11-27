@@ -35,12 +35,6 @@
     <priority>0.95</priority>
   </url>
   <url>
-    <loc>https://xcr.fr/cocourtage-assurance</loc>
-    <lastmod>2025-01-12</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.95</priority>
-  </url>
-  <url>
     <loc>https://xcr.fr/devenir-partenaire</loc>
     <lastmod>2025-01-12</lastmod>
     <changefreq>monthly</changefreq>
@@ -110,18 +104,6 @@
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
-  <url>
-    <loc>https://xcr.fr/assurance-scooter</loc>
-    <lastmod>2025-01-12</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://xcr.fr/assurance-2-roues</loc>
-    <lastmod>2025-01-12</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
 
   <!-- Professionnels -->
   <url>
@@ -182,12 +164,6 @@
   </url>
   <url>
     <loc>https://xcr.fr/assurance-vtc</loc>
-    <lastmod>2025-01-12</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://xcr.fr/assurance-taxi</loc>
     <lastmod>2025-01-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
