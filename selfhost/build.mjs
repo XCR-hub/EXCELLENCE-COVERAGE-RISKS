@@ -10,6 +10,12 @@ await fs.rm(target,{recursive:true,force:true});
 await fs.mkdir(target,{recursive:true});
 await fs.cp(source,target,{recursive:true});
 const oldOrigin='https://cfuzzizrfiqzxfmnqybu.supabase.co';
+const recoveredEntry='index-102eaf97.js';
+const recoveredEntryPath=path.join(target,'assets',recoveredEntry);
+const recoveredCode=await fs.readFile(recoveredEntryPath,'utf8');
+const canonicalCode=recoveredCode.replaceAll('https://xcr-courtier.fr','https://xcr.fr');
+if(canonicalCode===recoveredCode)throw Error('Legacy XCR origin not found in recovered entry');
+await fs.writeFile(recoveredEntryPath,canonicalCode);
 const files=[];
 async function walk(dir){for(const entry of await fs.readdir(dir,{withFileTypes:true})){const file=path.join(dir,entry.name);if(entry.isDirectory())await walk(file);else files.push(file);}}
 await walk(target);
@@ -34,6 +40,14 @@ for(const file of files){
 }
 await fs.writeFile(path.join(target,'assets','analytics-disabled.js'),'/* No production analytics identifier configured. */\n');
 await fs.writeFile(path.join(target,'assets','native-jobs.js'),`(()=>{const original=window.fetch.bind(window);window.fetch=async(...args)=>{const response=await original(...args);const url=String(args[0]?.url||args[0]);if(url.includes('/api/platform/functions/v1/')&&response.status===202){const job=await response.clone().json().catch(()=>null);if(job?.job_id){let attempts=0;const poll=async()=>{try{const status=await original('/api/platform/jobs/v1/'+encodeURIComponent(job.job_id),{cache:'no-store'});if(!status.ok)return;const result=await status.json();if(result.status==='completed'){alert('Traitement IA terminé. Actualisez la liste pour consulter le résultat. Les nouveaux contenus restent en brouillon.');return;}if(result.status==='failed'){alert('Le traitement IA a échoué : '+(result.error_message||'Réessayez.'));return;}if(++attempts<240)setTimeout(poll,5000);}catch{if(++attempts<240)setTimeout(poll,5000);}};setTimeout(poll,3000);}}return response;};})();\n`);
+const builtEntry=await fs.readFile(recoveredEntryPath);
+const entryDigest=createHash('sha256').update(builtEntry).digest('hex').slice(0,12);
+const versionedEntry='index-seo-'+entryDigest+'.js';
+const htmlPath=path.join(target,'index.html');
+const builtHtml=await fs.readFile(htmlPath,'utf8');
+if(!builtHtml.includes('/assets/'+recoveredEntry))throw Error('Recovered entry reference missing');
+await fs.rename(recoveredEntryPath,path.join(target,'assets',versionedEntry));
+await fs.writeFile(htmlPath,builtHtml.replaceAll('/assets/'+recoveredEntry,'/assets/'+versionedEntry));
 await fs.writeFile(path.join(target,'sw.js'),`self.addEventListener('install',()=>self.skipWaiting());self.addEventListener('activate',event=>event.waitUntil(Promise.all([caches.keys().then(keys=>Promise.all(keys.map(key=>caches.delete(key)))),self.clients.claim()])));\n`);
 let commit=process.env.XCR_COMMIT||'';try{commit=execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8',windowsHide:true}).trim()}catch{}
 await fs.writeFile(path.join(target,'deploy-info.json'),JSON.stringify({site:'xcr.fr',commit,platform:'SERVEUR-XCR + Cloudflare proxy',built_at:new Date().toISOString()},null,2));
