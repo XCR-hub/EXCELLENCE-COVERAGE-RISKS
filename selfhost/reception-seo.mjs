@@ -42,3 +42,86 @@ export function rewriteHomeResponseTimes(code) {
     ['Devis gratuit sous 24h — 30+ assureurs compares — accompagnement inclus — aucun engagement.', 'Demandez un devis et échangez avec un conseiller sur les garanties adaptées à votre activité.', 1],
   ]);
 }
+
+export function rewriteHomeClaims(code) {
+  return updateSection(code, ',Rl=({className:', ',Il=({className:', [
+  ['{value:"15+",label:"ans d\'expertise"},{value:"30+",label:"assureurs"},{value:"2 500+",label:"clients"}', '{value:"Conseil",label:"selon votre activité"},{value:"Comparaison",label:"des garanties"},{value:"Suivi",label:"de votre dossier"}', 1],
+
+  [
+    "\"Un courtier independant compare l'ensemble du marche, negocie les tarifs et vous accompagne en cas de sinistre — contrairement aux assureurs en ligne qui ne proposent que leurs propres produits.\"",
+    "\"Un courtier étudie vos besoins, sollicite des assureurs et vous aide à comparer les garanties et les conditions proposées.\"",
+    1
+  ],
+  [
+    "\"Courtier assurance independant specialise entreprises et professionnels. RC Pro, Decennale, Multirisque, Flotte Auto, Mutuelle. Comparaison 30+ assureurs. Demande de devis en ligne. ORIAS 11 061 425.\"",
+    "\"Courtier en assurances pour professionnels et entreprises à Melun et Milly-la-Forêt. RC pro, décennale, multirisque, flotte et santé. ORIAS 11 061 425.\"",
+    1
+  ],
+  [
+    "\"Expert assurances professionnelles. 30+ assureurs compares. Demandez une étude de vos besoins.\"",
+    "\"XCR accompagne les professionnels et les entreprises dans l’étude de leurs risques et de leurs garanties.\"",
+    1
+  ],
+  [
+    "\"ORIAS N° 11 061 425 — Expert courtage depuis 2009\"",
+    "\"Courtier en assurances · ORIAS 11 061 425\"",
+    1
+  ],
+  [
+    "\"comparons 30+ assureurs\"",
+    "\"comparons les propositions\"",
+    1
+  ],
+  [
+    "\" pour obtenir les meilleures garanties au meilleur prix pour votre entreprise.\"",
+    "\" selon les risques et les besoins de votre entreprise.\"",
+    1
+  ],
+  [
+    "\"Chaque secteur a ses risques specifiques. Nous trouvons la couverture exactement adaptee a votre activite en comparant l'ensemble du marche.\"",
+    "\"Chaque secteur a ses risques propres. Nous étudions votre activité et comparons les garanties proposées face à ces risques.\"",
+    1
+  ],
+  [
+    "\"Nous interrogeons 30+ assureurs partenaires pour obtenir les meilleures offres garanties/prix.\"",
+    "\"Nous sollicitons des assureurs selon vos besoins et comparons les garanties, exclusions, franchises et tarifs.\"",
+    1
+  ],
+  [
+    "\"Contrairement aux agents d'assurance qui representent un seul groupe, nous comparons l'ensemble du marche pour defendre vos interets — en conseil comme en sinistre.\"",
+    "\"Nous vous aidons à comparer les propositions d’assurance et à comprendre les conditions qui s’appliquent à votre activité.\"",
+    1
+  ],
+  [
+    "\"Independance totale\"",
+    "\"Conseil en assurance\"",
+    1
+  ],
+  [
+    "\"Aucun lien avec un assureur. Nous negocions uniquement dans votre interet.\"",
+    "\"Nous étudions les offres disponibles selon votre situation et vous expliquons les différences entre les garanties.\"",
+    1
+  ],
+  [
+    "\"Gestion sinistres incluse\"",
+    "\"Suivi en cas de sinistre\"",
+    1
+  ],
+  [
+    "\"Nous suivons vos dossiers jusqu'au reglement, sans frais supplementaires.\"",
+    "\"Nous vous aidons à comprendre les démarches et le suivi de votre dossier en cas de sinistre.\"",
+    1
+  ],
+  [
+    "\"Expert depuis 2009\"",
+    "\"Melun et Milly-la-Forêt\"",
+    1
+  ],
+  [
+    "\"30+ assureurs partenaires\"",
+    "\"Étude de vos garanties\"",
+    1
+  ]
+
+  ]);
+}
