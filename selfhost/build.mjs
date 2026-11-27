@@ -24,9 +24,17 @@ const canonicalCode=legacyCanonicalCode
  .replaceAll(obsoleteAddress,melunAddress)
  .replace(',Ct.jsx("meta",{name:"geo.region",content:"FR-92"}),Ct.jsx("meta",{name:"geo.placename",content:"Suresnes"}),Ct.jsx("meta",{name:"geo.position",content:"48.8698;2.2285"}),Ct.jsx("meta",{name:"ICBM",content:"48.8698, 2.2285"})','')
  .replace(/,aggregateRating:\{"@type":"AggregateRating",ratingValue:"[0-9.]+",reviewCount:"[0-9]+"(?:,bestRating:"5")?\}/g,'')
- .replaceAll(/,Ct\.jsxs\("div",\{className:"flex items-center gap-1\.5 ml-auto",children:\[\[\.\.\.Array\(5\)\]\.map\(\(e,s\)=>Ct\.jsx\(\$,\{className:"w-3\.5 h-3\.5 text-[a-z0-9-]+ fill-current"\},s\)\),Ct\.jsx\("span",\{className:"text-xs text-[a-z0-9/\-]+ ml-1",children:"4\.[89]\/5 Google"\}\)\]\}\)/g,'')
+ .replaceAll(/,Ct\.jsxs\("div",\{className:"flex items-center gap-1\.5 ml-auto",children:\[\[\.\.\.Array\(5\)\]\.map\(\(e,s\)=>Ct\.jsx\(\$,\{className:"w-3\.5 h-3\.5 text-[a-z0-9-]+ fill-current"\},s\)\),Ct\.jsx\("span",\{className:"text-xs text-[a-z0-9/\-]+ ml-1",children:"4\.[89]\/5(?: Google)?"\}\)\]\}\)/g,'')
  .replace('Ct.jsxs("div",{className:"inline-flex items-center gap-1.5 mb-4 px-4 py-2 bg-amber-50 border border-amber-200 rounded-full",children:[[...Array(5)].map((e,s)=>Ct.jsx($,{className:"w-3.5 h-3.5 text-amber-400 fill-current"},s)),Ct.jsx("span",{className:"ml-1 text-xs font-bold text-amber-700",children:"4.8/5 — 247 avis verifies"})]}),','')
- .replaceAll(/,"4\.[89]\/5 Google"/g,'');
+ .replaceAll(/,"4\.[89]\/5 Google"/g,'')
+ .replaceAll(/,Ct\.jsxs\(T\.div,\{variants:\w+,initial:"hidden",animate:"visible",custom:4,className:"flex items-center gap-1\.5 pt-6 border-t border-white\/10",children:\[\[\.\.\.Array\(5\)\]\.map\(\(e,s\)=>Ct\.jsx\(\$,\{className:"w-3\.5 h-3\.5 text-[a-z0-9-]+ fill-current"\},s\)\),Ct\.jsx\("span",\{className:"text-xs text-[a-z0-9/-]+ ml-1\.5",children:"4\.9\/5 -- 287 avis Google(?: -- 800\+ entreprises accompagnees)?"\}\)\]\}\)/g,'')
+ .replaceAll(',{value:"4.9/5",label:"avis Google"}','')
+ .replace(',"4.8/5 avis clients"','')
+ .replace('Ct.jsxs("div",{className:"flex items-center gap-1 mb-2",children:[[...Array(5)].map((e,s)=>Ct.jsx($,{className:"w-4 h-4 text-amber-400 fill-current"},s)),Ct.jsx("span",{className:"text-sm font-bold text-slate-900 ml-2",children:"4.8/5"})]}),','')
+ .replace('Note moyenne basee sur 247 avis clients - Courtier flotte depuis 2009','Courtier flotte depuis 2009')
+ .replace(',{num:4,suffix:".8/5",label:"Note Google"}','')
+ .replace('Ct.jsxs("div",{className:"text-4xl md:text-5xl font-black text-slate-900 mb-1.5 tabular-nums",children:[4===e.num?"4.8":Ct.jsx(Al,{target:e.num,suffix:e.suffix}),4===e.num&&Ct.jsx("span",{className:"text-orange-500",children:"/5"})]})','Ct.jsx("div",{className:"text-4xl md:text-5xl font-black text-slate-900 mb-1.5 tabular-nums",children:Ct.jsx(Al,{target:e.num,suffix:e.suffix})})');
+if(/287 avis Google|247 avis clients|4\.8\/5 avis clients/.test(canonicalCode))throw Error('Recovered public rating text still present');
 if(/4\.[89]\/5 Google|247 avis verifies/.test(canonicalCode))throw Error('Recovered unsupported rating badge still present');
 if(canonicalCode===recoveredCode)throw Error('Legacy XCR origin not found in recovered entry');
 await fs.writeFile(recoveredEntryPath,canonicalCode);
