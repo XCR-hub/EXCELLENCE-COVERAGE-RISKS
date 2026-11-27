@@ -125,3 +125,13 @@ export function rewriteHomeClaims(code) {
 
   ]);
 }
+
+export function linkHomeAgencies(code) {
+  const streetList = 'children:e.items.map((e,s)=>Ct.jsxs("li",{className:"flex items-center gap-2.5 text-xs text-slate-700",children:[Ct.jsx(G,{className:"w-3.5 h-3.5 text-orange-400 shrink-0"}),e]},s))})';
+  const agencyLink = 'Ct.jsx("a",{href:e.contactHref,className:"mt-4 inline-block text-slate-900 underline hover:text-orange-700",children:"Coordonnées de l’agence de "+e.city})';
+  return updateSection(code, ',Rl=({className:', ',Il=({className:', [
+    ['{city:"Melun",code:"77 000"', '{city:"Melun",contactHref:"/contact#agence-melun",code:"77 000"', 1],
+    ['{city:"Milly-la-Foret",code:"91 490"', '{city:"Milly-la-Forêt",contactHref:"/contact#agence-milly",code:"91 490"', 1],
+    [streetList, streetList + ',' + agencyLink, 1],
+  ]);
+}
