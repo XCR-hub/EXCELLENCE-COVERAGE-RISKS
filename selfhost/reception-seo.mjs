@@ -45,6 +45,8 @@ export function rewriteHomeResponseTimes(code) {
 
 export function rewriteHomeClaims(code) {
   return updateSection(code, ',Rl=({className:', ',Il=({className:', [
+    ['children:"Courtier Assurance Professionnel | RC Pro, Decennale, Multirisque | XCR Courtier"', 'children:"Courtier en assurances professionnelles | XCR Assurances"', 1],
+    ['property:"og:title",content:"Courtier Assurance Professionnel | RC Pro, Decennale | XCR"', 'property:"og:title",content:"Courtier en assurances professionnelles | XCR Assurances"', 1],
   ['{value:"15+",label:"ans d\'expertise"},{value:"30+",label:"assureurs"},{value:"2 500+",label:"clients"}', '{value:"Conseil",label:"selon votre activité"},{value:"Comparaison",label:"des garanties"},{value:"Suivi",label:"de votre dossier"}', 1],
 
   [
