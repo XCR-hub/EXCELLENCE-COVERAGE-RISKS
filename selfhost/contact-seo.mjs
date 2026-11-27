@@ -54,5 +54,26 @@ export function rewriteContactSeo(code) {
     }
     code = code.replace(before, after);
   }
-  return code;
+  return rewriteContactReception(code);
+}
+
+export function rewriteContactReception(code) {
+  const start = code.indexOf('Contact XCR Assurances | Melun et Milly-la-Forêt');
+  const oldHours = 'Samedi : 9h00 - 12h00';
+  const end = code.indexOf(oldHours, start);
+  if (start < 0 || end < start || end - start > 20000 || code.indexOf(oldHours) !== code.lastIndexOf(oldHours)) {
+    throw new Error('Contact page boundaries could not be verified');
+  }
+  let contact = code.slice(start, end);
+  for (const [previous, current] of [
+    ['+33-1-80-85-57-81', '+33-1-80-85-57-80'],
+    ['tel:+33180855781', 'tel:+33180855780'],
+    ['01 80 85 57 81', '01 80 85 57 80'],
+  ]) {
+    if (contact.indexOf(previous) < 0 || contact.indexOf(previous) !== contact.lastIndexOf(previous)) {
+      throw new Error('Contact phone occurrence could not be verified: ' + previous);
+    }
+    contact = contact.replace(previous, current);
+  }
+  return code.slice(0, start) + contact + 'Samedi : Fermé' + code.slice(end + oldHours.length);
 }
