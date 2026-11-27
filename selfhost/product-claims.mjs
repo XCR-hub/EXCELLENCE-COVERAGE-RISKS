@@ -1,4 +1,76 @@
 const productClaims = [
+  [
+    "Le courtier negocie des tarifs degressifs selon la taille de la flotte, la sinistralite, le profil des conducteurs et l'usage des vehicules. La mise en concurrence de 30+ assureurs permet d'obtenir des conditions impossibles a obtenir en direct. Des economies de 15 a 35% sont courantes.",
+    "Le tarif dépend notamment de la taille de la flotte, de la sinistralité, des conducteurs et de l’usage des véhicules. Le courtier compare les propositions selon ces éléments."
+  ],
+  [
+    "Plus votre flotte est importante, plus le tarif par vehicule diminue. Economies de 15 a 35% par rapport aux contrats individuels.",
+    "Un contrat de flotte peut simplifier la gestion du parc. Son coût dépend des véhicules et des garanties retenues."
+  ],
+  [
+    " pour obtenir des tarifs degressifs, une gestion centralisee et une assistance 24h/24 pour tous vos vehicules professionnels. Economies de 15 a 35% garanties.",
+    " pour étudier les garanties, les modalités de gestion et les options d’assistance selon les besoins de votre flotte."
+  ],
+  [
+    "Economies 15-35%",
+    "Étude des coûts de la flotte"
+  ],
+  [
+    "Devis gratuit sous 24h — Economies de 15 a 35% — Gestion centralisee — Assistance 24/7.",
+    "Demandez une étude des garanties et des options de gestion adaptées à votre parc."
+  ],
+  [
+    "Le cout d'une assurance flotte depend de nombreux facteurs : nombre de vehicules, types et usages, historique de sinistralite sur 3 ans, zone geographique et niveau de garanties. En moyenne, le passage en flotte genere des economies de 15 a 35% par rapport aux contrats individuels. Demandez un devis gratuit a notre agence de Melun.",
+    "Le coût d’une assurance flotte dépend du nombre de véhicules, de leurs usages, de la sinistralité et du niveau de couverture choisi. Le courtier étudie les options selon votre parc."
+  ],
+  [
+    "Courtier specialise en assurance flotte automobile a Melun (77). Flotte de vehicules, camions, poids lourds, motos, VTC, taxis, autocars, machines et engins. Comparaison 30+ assureurs, tarifs degressifs, economies 15-35%.",
+    "Courtier en assurance flotte automobile à Melun. Étude des garanties pour les véhicules de votre parc professionnel, selon leurs usages."
+  ],
+  [
+    "Courtier assurance flotte automobile a Melun (77). Flotte de vehicules, camions, motos, VTC, taxis, autocars, poids lourds, machines. 30+ assureurs compares. Economies 15-35%. Devis gratuit 24h. ORIAS 11 061 425.",
+    "XCR étudie les garanties d’assurance flotte automobile selon la composition et l’usage de votre parc professionnel. ORIAS 11 061 425."
+  ],
+  [
+    "Economies de 15 a 35% garanties",
+    "Étude du coût des garanties"
+  ],
+  [
+    "Reseau Cocourtage Assurance - Premier Reseau Courtiers France",
+    "Réseau de cocourtage en assurances | XCR Assurances"
+  ],
+  [
+    "Rejoignez le premier reseau de cocourtage en assurances entreprises. 150+ courtiers partenaires, 25+ compagnies.",
+    "Découvrez le réseau de cocourtage XCR et échangez avec notre équipe sur les modalités de partenariat."
+  ],
+  [
+    "Premier reseau de cocourtage en assurances entreprises en France. Partenariat courtiers, placement RC Pro, decennale, sante collective.",
+    "Réseau de cocourtage en assurances d’entreprise. Partenariats entre courtiers en RC professionnelle, décennale et santé collective."
+  ],
+  [
+    "Premier Reseau de",
+    "Réseau de"
+  ],
+  [
+    "Rejoignez 150+ courtiers partenaires. Acces aux meilleurs marches en RC Pro, decennale, sante collective et gestion de patrimoine.",
+    "Échangez avec XCR sur les placements en RC professionnelle, décennale, santé collective et gestion de patrimoine."
+  ],
+  [
+    "Rejoignez le Premier Reseau de Cocourtage",
+    "Échangez avec notre réseau de cocourtage"
+  ],
+  [
+    "150+ courtiers nous font confiance. Developpez votre activite avec un partenaire solide.",
+    "Découvrez les modalités de travail avec le réseau de cocourtage XCR."
+  ],
+  [
+    "© 2025 XCR Assurances - Premier reseau de cocourtage en assurances entreprises en France",
+    "© XCR Assurances"
+  ],
+  [
+    "Jusqu'a 50% de commission",
+    "Selon les modalités du partenariat"
+  ],
   ["et scooter a Melun -- -35%", "et scooter à Melun"],
   [
     "et moto a Melun -- Jusqu'a -40%",
@@ -85,6 +157,12 @@ export function rewriteProductClaims(code) {
   }
   code = code.replace(oldBadge, '{v:"Prêt",l:"garanties à étudier"}');
 
+  const fleetBadges = '{v:"15-35%",l:"d\'economies"},{v:"30+",l:"assureurs"},{v:"24h",l:"devis garanti"}';
+  if (code.split(fleetBadges).length !== 3 || code.split('stat:"-35%"').length !== 2) {
+    throw new Error('Expected the recovered fleet savings and response badges');
+  }
+  code = code.replaceAll(fleetBadges, '{v:"Flotte",l:"véhicules professionnels"},{v:"Garanties",l:"selon les usages"},{v:"Devis",l:"sur étude du dossier"}');
+  code = code.replace('stat:"-35%"', 'stat:"Sur étude"');
   for (const [previous, current] of productClaims) {
     const quoted = JSON.stringify(previous);
     if (!code.includes(quoted)) {
