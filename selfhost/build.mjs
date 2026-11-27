@@ -23,7 +23,11 @@ const canonicalCode=legacyCanonicalCode
  .replace(errorPageCanonical,errorPageCanonical+',noindex:!0')
  .replaceAll(obsoleteAddress,melunAddress)
  .replace(',Ct.jsx("meta",{name:"geo.region",content:"FR-92"}),Ct.jsx("meta",{name:"geo.placename",content:"Suresnes"}),Ct.jsx("meta",{name:"geo.position",content:"48.8698;2.2285"}),Ct.jsx("meta",{name:"ICBM",content:"48.8698, 2.2285"})','')
- .replace(/,aggregateRating:\{"@type":"AggregateRating",ratingValue:"[0-9.]+",reviewCount:"[0-9]+"(?:,bestRating:"5")?\}/g,'');
+ .replace(/,aggregateRating:\{"@type":"AggregateRating",ratingValue:"[0-9.]+",reviewCount:"[0-9]+"(?:,bestRating:"5")?\}/g,'')
+ .replaceAll(/,Ct\.jsxs\("div",\{className:"flex items-center gap-1\.5 ml-auto",children:\[\[\.\.\.Array\(5\)\]\.map\(\(e,s\)=>Ct\.jsx\(\$,\{className:"w-3\.5 h-3\.5 text-[a-z0-9-]+ fill-current"\},s\)\),Ct\.jsx\("span",\{className:"text-xs text-[a-z0-9/\-]+ ml-1",children:"4\.[89]\/5 Google"\}\)\]\}\)/g,'')
+ .replace('Ct.jsxs("div",{className:"inline-flex items-center gap-1.5 mb-4 px-4 py-2 bg-amber-50 border border-amber-200 rounded-full",children:[[...Array(5)].map((e,s)=>Ct.jsx($,{className:"w-3.5 h-3.5 text-amber-400 fill-current"},s)),Ct.jsx("span",{className:"ml-1 text-xs font-bold text-amber-700",children:"4.8/5 — 247 avis verifies"})]}),','')
+ .replaceAll(/,"4\.[89]\/5 Google"/g,'');
+if(/4\.[89]\/5 Google|247 avis verifies/.test(canonicalCode))throw Error('Recovered unsupported rating badge still present');
 if(canonicalCode===recoveredCode)throw Error('Legacy XCR origin not found in recovered entry');
 await fs.writeFile(recoveredEntryPath,canonicalCode);
 const appRoutes=[...new Set([...recoveredCode.matchAll(/path:"(\/[^"]*)",element:/g)].map(match=>match[1]))].sort();
