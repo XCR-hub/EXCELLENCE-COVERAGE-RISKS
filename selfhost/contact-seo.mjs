@@ -45,8 +45,8 @@ export function rewriteContactSeo(code) {
     ['Contactez XCR Courtier pour votre devis assurance gratuit. Expert courtier depuis 15 ans.', description],
     ['https://xcr.fr/images/contact-xcr-courtier.jpg', 'https://xcr.fr/logos/logo_xcr_new.png'],
     [legacySchema, JSON.stringify(schema)],
-    ['Ct.jsx("h2",{className:"text-2xl font-bold mb-6 text-secondary-400",children:"Siège Social - Melun"})', 'Ct.jsx("h2",{id:"agence-melun",className:"text-2xl font-bold mb-6 text-secondary-400",children:"Siège Social - Melun"})'],
-    ['Ct.jsx("h2",{className:"text-2xl font-bold mb-6 text-secondary-400",children:"Agence Milly-la-Forêt"})', 'Ct.jsx("h2",{id:"agence-milly",className:"text-2xl font-bold mb-6 text-secondary-400",children:"Agence Milly-la-Forêt"})'],
+    ['Ct.jsx("h2",{className:"text-2xl font-bold mb-6 text-secondary-400",children:"Siège Social - Melun"})', 'Ct.jsx("h2",{id:"agence-melun",style:{scrollMarginTop:"6rem"},className:"text-2xl font-bold mb-6 text-secondary-400",children:"Siège Social - Melun"})'],
+    ['Ct.jsx("h2",{className:"text-2xl font-bold mb-6 text-secondary-400",children:"Agence Milly-la-Forêt"})', 'Ct.jsx("h2",{id:"agence-milly",style:{scrollMarginTop:"6rem"},className:"text-2xl font-bold mb-6 text-secondary-400",children:"Agence Milly-la-Forêt"})'],
   ];
   for (const [before, after] of replacements) {
     if (code.indexOf(before) < 0 || code.indexOf(before) !== code.lastIndexOf(before)) {
